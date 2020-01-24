@@ -4,7 +4,7 @@ TEST_PATH=./
 
 help:
 	@echo "    run"
-	@echo "    	   run system 
+	@echo "    	   run system
 
 
 clean:
@@ -17,5 +17,5 @@ clean:
 	rm -rf docs/_build
 
 run:
-	make -C SystemCode/ run
+	make -C SystemCode/Fulfillment/ run
 

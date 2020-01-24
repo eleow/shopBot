@@ -1,0 +1,14 @@
+{
+  "name": "A shopping bot to help you get the best headphones",
+  "description": "A shopping bot to help you get the best headphones",
+  "repository": "https://github.com/eleow/shopBot/",
+  "keywords": ["dialogflow", "shopping bot", "headphones"],
+   "environments": {
+    "test": {
+      "scripts": {
+        "test-setup": "python ./SystemCode/Fulfillment/shopbot_main.py 0",
+        "test": "python ./SystemCode/Fulfillment/shopbot_main.py 0"
+      }
+    }
+  }
+}

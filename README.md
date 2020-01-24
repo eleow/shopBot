@@ -13,10 +13,10 @@
     <img src="_misc/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Financial chatbot</h3>
+  <h3 align="center">Shopping chatbot</h3>
 
   <p align="center">
-    Quickly get advice on a particular stock or overall market by just typing
+    Quickly get product recommendations by just typing
     <br />
     <br />
     <br />
@@ -60,8 +60,7 @@ Distributed under the [MIT License](LICENSE)
 ## Acknowledgements
 Todo
 
-
-Robot icon made by <a href="https://www.flaticon.com/authors/becris" title="Becris">Becris</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+Shop assistant icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
