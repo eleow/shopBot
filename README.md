@@ -9,7 +9,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/eleow/finBot">
+  <a href="https://github.com/eleow/shopBot">
     <img src="_misc/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -22,9 +22,9 @@
     <br />
     <a href="">View Demo</a>
     ·
-    <a href="https://github.com/eleow/finBot/issues">Report Bug</a>
+    <a href="https://github.com/eleow/shopBot/issues">Report Bug</a>
     ·
-    <a href="https://github.com/eleow/finBot/issues">Request Feature</a>
+    <a href="https://github.com/eleow/shopBot/issues">Request Feature</a>
   </p>
 </p>
 
@@ -40,15 +40,17 @@ Todo
 
 Todo
 
-
-
 ### Installation
-- Install prerequisites following instructions in "conda setup.txt"
+
 - Clone this repo:
 
 ```sh
-git clone https://github.com/eleow/finBot.git
+git clone https://github.com/eleow/shopBot.git
 ```
+
+- Install prerequisites in "requirements.txt"
+- Deploy to Heroku or other public URL, and change variable PUBLIC_URL
+- Connect DialogFlow fulfillment to your PUBLIC_URL
 
 ## Usage
 
@@ -65,16 +67,16 @@ Shop assistant icon made by <a href="https://www.flaticon.com/authors/freepik" t
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/eleow/finBot
-[contributors-url]: https://github.com/eleow/finBot/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/eleow/finBot
-[forks-url]: https://github.com/eleow/finBot/network/members
-[stars-shield]: https://img.shields.io/github/stars/eleow/finBot
-[stars-url]: https://github.com/eleow/finBot/stargazers
-[issues-shield]: https://img.shields.io/github/issues/eleow/finBot
-[issues-url]: https://github.com/eleow/finBot/issues
-[license-shield]: https://img.shields.io/github/license/eleow/finBot
-[license-url]: https://github.com/eleow/finBot/blob/master/LICENSE
+[contributors-shield]: https://img.shields.io/github/contributors/eleow/shopBot
+[contributors-url]: https://github.com/eleow/shopBot/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/eleow/shopBot
+[forks-url]: https://github.com/eleow/shopBot/network/members
+[stars-shield]: https://img.shields.io/github/stars/eleow/shopBot
+[stars-url]: https://github.com/eleow/shopBot/stargazers
+[issues-shield]: https://img.shields.io/github/issues/eleow/shopBot
+[issues-url]: https://github.com/eleow/shopBot/issues
+[license-shield]: https://img.shields.io/github/license/eleow/shopBot
+[license-url]: https://github.com/eleow/shopBot/blob/master/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat-square&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/edmundleow
 [product-screenshot]: images/screenshot.png
