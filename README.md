@@ -32,7 +32,11 @@
 
 ## About
 
-Todo
+This was the group project by <a href="https://github.com/eleow">Edmund</a>, <a href="https://github.com/gitacct1800">Meiying</a>, <a href="https://github.com/Shashankwer">Shashank</a>, and <a href="https://github.com/Quinceyyy">Wenqi</a> (listed in alphabetical order), for
+
+* Graduate Certificate in [Practical Language Processing](https://www.iss.nus.edu.sg/stackable-certificate-programmes/business-analytics/graduate-certificate-in-practical-language-processing") offered by [NUS-ISS](https://www.iss.nus.edu.sg "Institute of Systems Science, National University of Singapore").
+
+
 
 ## Getting Started
 
@@ -60,7 +64,7 @@ Todo
 Distributed under the [MIT License](LICENSE)
 
 ## Acknowledgements
-Todo
+
 
 Shop assistant icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 

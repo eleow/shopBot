@@ -128,3 +128,7 @@ dmypy.json
 # Pyre type checker
 .pyre/
 .vscode/
+
+# project-specific
+/_misc
+!/_misc/logo.png
