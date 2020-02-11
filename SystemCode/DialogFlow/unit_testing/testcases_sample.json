@@ -1,0 +1,21 @@
+{
+  "testcases": [
+    {
+      "utterance": "book a room",
+      "intent": "room.reservation",
+      "entities": []
+    },
+    {
+      "utterance": "I need a room for 2",
+      "intent": "room.reservation",
+      "entities": [
+        { "key": "guests", "value": 2, "type": "number" }
+      ]
+    },
+    {
+      "utterance": "who is the President?",
+      "intent": "Default Fallback Intent",
+      "entities": []
+    }
+  ]
+}

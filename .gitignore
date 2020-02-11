@@ -134,3 +134,4 @@ dmypy.json
 !/_misc/logo.png
 config.ini
 SystemCode/DialogFlow/unit_testing/*.json
+!SystemCode/DialogFlow/unit_testing/testcases_sample.json

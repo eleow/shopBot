@@ -5,7 +5,6 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -13,10 +12,10 @@
     <img src="_misc/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Shopping chatbot</h3>
+  <h3 align="center">AudioPhil, the shopbot for headphones</h3>
 
   <p align="center">
-    Quickly get product recommendations by just typing
+    Quickly get product recommendations for headphones by just typing into a chat interface
     <br />
     <br />
     <br />
@@ -28,39 +27,73 @@
   </p>
 </p>
 
-
-
 ## About
 
 This was the group project by <a href="https://github.com/eleow">Edmund</a>, <a href="https://github.com/gitacct1800">Meiying</a>, <a href="https://github.com/Shashankwer">Shashank</a>, and <a href="https://github.com/Quinceyyy">Wenqi</a> (listed in alphabetical order), for
 
 * Graduate Certificate in [Practical Language Processing](https://www.iss.nus.edu.sg/stackable-certificate-programmes/business-analytics/graduate-certificate-in-practical-language-processing") offered by [NUS-ISS](https://www.iss.nus.edu.sg "Institute of Systems Science, National University of Singapore").
 
-
-
 ## Getting Started
-
-### Pre-requisites and Dependencies
-
-Todo
 
 ### Installation
 
-- Clone this repo:
+* Clone this repo:
 
 ```sh
 git clone https://github.com/eleow/shopBot.git
 ```
 
-- Install prerequisites in "requirements.txt"
-- Deploy to Heroku or other public URL, and change variable PUBLIC_URL
-- Connect DialogFlow fulfillment to your PUBLIC_URL
+* Install prerequisites in "requirements.txt"
+* Deploy to Heroku or other public URL, and change variable PUBLIC_URL
+* Connect DialogFlow fulfillment to your PUBLIC_URL
 
 ## Usage
 
-Todo
+The following intents are available
+
+* Get product recommendations
+* Get answers to headphone-related stuff (FAQ)
+* Get pricing information for a specific headphone model
+
+### Get product recommendations
+
+TODO
+
+### Get answers to FAQ on headphone-related stuff
+
+TODO
+
+### Get pricing information
+
+TODO
+
+## Unit Testing
+
+Intents and entities recognition can be tested via [dialogflow_testing.py](https://github.com/eleow/shopBot/blob/master/SystemCode/DialogFlow/unit_testing/dialogflow_testing.py). Simply run it and pass in the path to the configuration file (eg config.ini), like so
+
+```bash
+python dialogflow_test.py --config "./config.ini"
+```
+
+The configuration file should contain the following:
+
+* CREDENTIALS - path to the DialogFlow JSON file, relative to script
+* TEST_FILE - path to file containing test cases, relative to script
+
+
+For more details, including how to specify intent confidence threshold, etc, use the following:
+
+```bash
+python dialogflow_test.py --help
+```
+
+
+[A sample configuration file](https://github.com/eleow/shopBot/blob/master/SystemCode/DialogFlow/unit_testing/config.ini.sample) is provided in the repository.
+
+The script will loop through all test cases in TEST_FILE, verifying it against expected intent and expected entities by sending it to the DialogFlow backend specified in CREDENTIALS, to give a summary of the number of passed test cases.
 
 ## License
+
 Distributed under the [MIT License](LICENSE)
 
 ## Acknowledgements
