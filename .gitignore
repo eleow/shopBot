@@ -132,3 +132,5 @@ dmypy.json
 # project-specific
 /_misc
 !/_misc/logo.png
+config.ini
+SystemCode/DialogFlow/unit_testing/*.json

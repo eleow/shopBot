@@ -1,0 +1,3 @@
+[DIALOGFLOW]
+CREDENTIALS = 'MyDialogFlowCredientials.json'
+TEST_FILE = 'test.json'
