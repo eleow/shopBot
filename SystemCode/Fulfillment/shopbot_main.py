@@ -68,15 +68,15 @@ def webhook():
 
     elif (request.method == 'POST'):
         req = request.get_json(silent=True, force=True)
-        intent_name = req["queryResult"]["intent"]["displayName"]
+        intent_name = req["queryResult"]["intent"]["displayName"].lower()  # get intent in lower characters
         action = req["queryResult"].get("action", None)
 
         # Intent for query of terms
-        if (intent_name == "WhatIs"):
+        if (intent_name == "intent_whatis"):
             return whatis_intent_handler(req, PUBLIC_URL)
 
         elif action in ["WELCOME"] or "Default Welcome Intent" in intent_name:
-            wasRedirected = (req["queryResult"].get("outputContexts") != None and any(
+            wasRedirected = (req["queryResult"].get("outputContexts") is not None and any(
                 "welcome" in d["name"] for d in req["queryResult"].get("outputContexts")))
 
             dontUnderstand = [
@@ -101,7 +101,7 @@ def webhook():
 # ***************************
 # WEBHOOK MAIN ENDPOINT : END
 # ***************************
-#from pml import app
+# from pml import app
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

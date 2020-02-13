@@ -6,3 +6,5 @@ requests
 lxml
 pml
 pyngrok
+spacy
+deeppavlov
