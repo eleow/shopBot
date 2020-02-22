@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Feb  8 14:35:42 2020
+
+@author: shashanknigam
+
+Trying to get a mapping for ASIN --> product Name
+
+The url https://www.amazon.com/dp/B00CE2ELOS seems to work where B00CE2ELOS is the ASIN 
+
+"""
+
+
+
+from  amazon import parseAmazon
+import pandas as pd
+import numpy as np
+
+"""
+Following are the files considered:
+1. 20200128083145_amazon_us_5e2ff1718dfabb54907467cb_search_results_as_rows.xlsx :search_result.id contains the ASIN Number
+2. 20200128093300_amazon_us_5e2fffcc8dfabb5490746887_one_review_per_row.xlsx:
+
+"""
+df = pd.read_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/AmazonDataSet/ProductDictionary.xlsx')
+ASIN_LIST = list(df['ASIN'])
+ASIN = []
+df = pd.read_excel("/Users/shashanknigam/downloads/drive-download-20200208T064040Z-001/20200128083145_amazon_us_5e2ff1718dfabb54907467cb_search_results_as_rows.xlsx")
+ASIN = list(np.unique(df["search_result.id"]))
+df = pd.read_excel("/Users/shashanknigam/downloads/drive-download-20200208T064040Z-001/20200128093300_amazon_us_5e2fffcc8dfabb5490746887_one_review_per_row.xlsx")
+ASIN = list(set(ASIN + list(np.unique(df.product_id))))
+url=[]
+df = pd.read_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/googleProductList.xls')
+
+for i in range(len(df)):
+    if 'Amazon' in df['Seller'][i]:
+        url.append(df['Seller URL'][i])
+
+for i in ASIN:
+    if i not in ASIN_LIST:
+        url.append("https://www.amazon.com/dp/"+i)
+
+print("Total number of pages pto be parsed,",len(url))    
+for i in url:
+    parseAmazon(i)
+
