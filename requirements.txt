@@ -8,3 +8,4 @@ pml
 pyngrok
 spacy
 deeppavlov
+rasa

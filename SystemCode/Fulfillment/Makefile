@@ -20,5 +20,5 @@ clean:
 run:
 	python shopbot_main.py
 
-ngrok:
+run_ngrok:
 	ngrok http 5000

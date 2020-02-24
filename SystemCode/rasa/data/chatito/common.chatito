@@ -1,0 +1,54 @@
+// Common entities to be imported and reused
+
+~[could]
+    could
+    might
+    may
+    can
+
+~[hi]
+    hi
+    hello
+    hey
+    yo
+    yoz
+    hihi
+
+~[greetings]
+    greetings
+    good morning
+    good afternoon
+    good day
+    good night
+    morning
+    afternoon
+    evening
+
+~[please]
+    please
+    plz
+    pls
+
+~[thanks]
+    thanks
+    thank you
+    thank
+    thks
+
+~[singlish_end]
+    la
+    lah
+    lo
+    leh
+    le
+
+@[name]
+    bot
+    robot
+    bob
+    audiophil
+    phil
+    phile
+    audiophile
+    oei
+    whey

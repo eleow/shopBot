@@ -11,5 +11,8 @@
             "--max-line-length=120",
             "--ignore=W503,E701",
         ]
+    },
+    "file.associations": {
+        "*.chatito": "markdown"
     }
 }

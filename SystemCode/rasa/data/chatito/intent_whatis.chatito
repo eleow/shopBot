@@ -1,0 +1,179 @@
+import ./common.chatito
+
+# https://rodrigopivi.github.io/Chatito/
+# Chatito file for intent_whatis
+%[intent_whatis]('training':'1000', 'testing':'1000')
+    *[30%] ~[hi?] ~[name?] ~[could] I know what is @[term] ~[thanks?]
+    what is @[term] ~[singlish_end?]
+    can explain @[term]?
+    I would like to know about @[term]
+    need to know @[term]
+    tell me about @[term]
+
+~[name]
+    bot
+    robot
+    bob
+    audiophil
+    phil
+    phile
+    audiophile
+    oei
+    whey
+
+~[could]
+    could
+    might
+    may
+    can
+
+~[hi]
+    hi
+    hello
+    hey
+    yo
+    yoz
+    morning
+    afternoon
+    evening
+    good morning
+    good afternoon
+    good evening
+
+~[please]
+    please
+    plz
+    pls
+
+~[thanks]
+    thanks
+    thank you
+    thank
+    thks
+
+~[singlish_end]
+    la
+    lah
+    lo
+    leh
+    le
+
+@[term]
+    earphone
+    wireless earphones
+    2.4 ghz
+    900 mhz
+    airline adapter
+    all discrete
+    amplifier
+    analog
+    armature
+    around-the-ear
+    asymmetrical cord
+    attenuator
+    automatic call distributor
+    balanced headphones
+    behind-the-neck
+    biaural or binaural
+    binaural recording
+    bluetooth
+    boom microphone
+    bright
+    circumaural
+    clipping
+    closed
+    closed-back
+    coaxial
+    coherent
+    convertible headphones
+    crossfeed
+    current
+    custom earphones
+    dac
+    damping factor
+    dbr
+    db
+    decibel
+    digital
+    digital inputs
+    directional microphones
+    distortion
+    diy
+    driver
+    ear clips
+    ear hangers
+    ear headphone
+    earbud
+    earbud gels
+    earcup
+    earpad
+    efficiency
+    filter switch
+    folding headband
+    frequency response
+    full size
+    full-sized jack
+    gain switch
+    harmonic distortion
+    headphone amplifier
+    headphone efficiency
+    headphone sensitivity
+    image depth
+    image width
+    imaging
+    impedance
+    in-ear
+    in-ear monitor
+    in-the-ear
+    infrared ir transmission
+    input impedance
+    isolation
+    laid back
+    linear amplifier
+    liquid sounding
+    listening fatigue
+    lush
+    mini plug
+    mp3 mpeg layer 3 file.
+    neodymium magnets
+    noise attenuation
+    noise cancelling headphones
+    noise-compensation
+    noise-isolating
+    ohms
+    omni-directional
+    on-ear
+    on-the-ear
+    op-amp
+    opa 627
+    open
+    optical
+    otl tube amps
+    output impedance
+    over-ear
+    portable headphones
+    power amplifier
+    power supply
+    punch
+    radio frequency rf transmission
+    resonance
+    s/pdif
+    sealed
+    self-powered speakers
+    single-sided cord
+    solid state
+    soundstage
+    speaker
+    sport headphones
+    square wave response
+    supra-aural
+    swivel earcups
+    talkthrough button
+    transient response
+    transistor
+    tube amplifier
+    usb
+    virtual surround sound
+    voip
+    warmth
+    wireless

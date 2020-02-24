@@ -19,3 +19,17 @@ clean:
 run:
 	make -C SystemCode/Fulfillment/ run
 
+run_ngrok:
+	make -C SystemCode/Fulfillment/ run_ngrok
+
+rasa_train:
+	make -C SystemCode/rasa/ rasa_train_nlu
+
+rasa_test:
+	make -C SystemCode/rasa/ rasa_test_nlu
+
+
+rasa_run:
+	make -C SystemCode/rasa/ rasa_run
+
+
