@@ -33,15 +33,15 @@ ASIN = list(set(ASIN + list(np.unique(df.product_id))))
 url=[]
 df = pd.read_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/googleProductList.xls')
 
-for i in range(len(df)):
-    if 'Amazon' in df['Seller'][i]:
-        url.append(df['Seller URL'][i])
+#for i in range(len(df)):
+#    if 'Amazon' in df['Seller'][i]:
+#        url.append(df['Seller URL'][i])
 
 for i in ASIN:
     if i not in ASIN_LIST:
         url.append("https://www.amazon.com/dp/"+i)
 
 print("Total number of pages pto be parsed,",len(url))    
-for i in url:
-    parseAmazon(i)
+#for i in url:
+#    parseAmazon(i)
 
