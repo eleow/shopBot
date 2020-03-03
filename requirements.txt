@@ -1,11 +1,6 @@
-django
+deeppavlov==0.7.1
 gunicorn
-django-heroku
 flask
 requests
-lxml
-pml
 pyngrok
 spacy
-deeppavlov
-rasa

@@ -1,0 +1,1 @@
+web: rasa run --enable-api -m models/nlu_rasa.tar.gz --cors "*" -p $PORT
