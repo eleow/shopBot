@@ -1,5 +1,5 @@
 import string
-from json import dumps, loads
+# from json import dumps, loads
 import requests
 from requests.exceptions import HTTPError
 
@@ -14,8 +14,10 @@ rasa_to_dialogFlow_intent = {
 }
 
 
-def get_response_from_rasa(payload):
-    rasa_server_url = "http://localhost:5005/model/parse"
+def get_response_from_rasa(payload, rasa_base_url):
+    # rasa_server_url = "http://localhost:5015/model/parse"
+    # rasa_server_url = "https://testshop1606.herokuapp.com/model/parse"
+    rasa_server_url = rasa_base_url + "/model/parse"
     headers = {
         "Accept": "application/json",
         "Content-Type": "application/json"
@@ -35,11 +37,11 @@ def get_response_from_rasa(payload):
         return None
 
 
-def perform_intent_entity_recog_with_rasa(queryText):
+def perform_intent_entity_recog_with_rasa(queryText, rasa_base_url):
 
     # strip punctuation, convert to lower before passing to RASA-NLU server
     payload = ''.join([t for t in queryText if t not in string.punctuation]).lower()
-    rasa_response = get_response_from_rasa(payload)
+    rasa_response = get_response_from_rasa(payload, rasa_base_url)
 
     if (rasa_response is not None):
         rasa_intent_name = rasa_response['intent']["name"]

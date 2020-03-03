@@ -5,6 +5,15 @@ TEST_PATH=./
 help:
 	@echo "    run"
 	@echo "    	   run system
+	@echo "    run_ngrok"
+	@echo "    	   run ngrok locally
+	@echo "    rasa_train"
+	@echo "    	   train rasa nlu model on training dataset
+	@echo "    rasa_test"
+	@echo "    	   test rasa nlu model on test dataset
+	@echo "    rasa_run"
+	@echo "    	   run rasa nlu server
+
 
 
 clean:

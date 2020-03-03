@@ -35,6 +35,7 @@ if len(sys.argv) == 2:
 
 # For running ngok directly from python
 PUBLIC_URL = ""
+RASA_URL = ""
 if RUN_NGROK:
     from pyngrok import ngrok
     from os.path import dirname, join, realpath
@@ -48,38 +49,23 @@ if RUN_NGROK:
         PUBLIC_URL = ngrok.connect(port=5000, proto="http")
     else:
         PUBLIC_URL = tunnels[0].public_url
+
+    RASA_URL = "http://localhost:5015"
     print("--------------------------------------------------------------------")
     print(" Flask will be run from ngrok")
+    print(" RASA server should be started manually and point to localhost:5005")
     print("--------------------------------------------------------------------")
 else:
-    PUBLIC_URL = "https://shopbotsg.herokuapp.com/"  # Use heroku url
+    PUBLIC_URL = "https://shopbotsg.herokuapp.com/"  # ShopBot main logic
+    RASA_URL = "http://testshop1606.herokuapp.com"   # Rasa NLU server (app will be either rename or hopefully combined into shopbot)
     print("--------------------------------------------------------------------")
     print(" Flask will be run from Heroku / Ngrok will be run separately")
     print("--------------------------------------------------------------------")
 
 print(" * PUBLIC URL: " + PUBLIC_URL)
+print(" * RASA URL: " + RASA_URL)
 app = Flask(__name__)
 
-
-# def perform_intent_entity_recog_with_rasa(payload):
-#     rasa_server_url = "http://localhost:5005/model/parse"
-#     headers = {
-#         "Accept": "application/json",
-#         "Content-Type": "application/json"
-#     }
-
-#     try:
-#         # send POST call to RASA to perform intent classification and entity recognition
-#         # https://rasa.com/docs/rasa/api/http-api/
-#         response = requests.post(url=rasa_server_url, headers=headers, json={"text": payload})
-#         print("----------------------RASA!!!! _------------")
-#         print(dumps(response.json()))
-
-#         return response.json()
-
-#     except HTTPError as http_err:
-#         print(f'Ensure that RASA server is running. {http_err}')
-#         return None
 
 # *****************************
 # WEBHOOK MAIN ENDPOINT : START
@@ -100,7 +86,7 @@ def webhook():
         if (intent_name == "intent_whatis_query"):
             return whatis_intent_handler(req, PUBLIC_URL)
 
-        elif action in ["WELCOME"] or "Default Welcome Intent" in intent_name:
+        elif action in ["WELCOME"] or "default welcome intent" in intent_name:
             # wasRedirected = (req["queryResult"].get("outputContexts") is not None and any(
             #     "welcome" in d["name"] for d in req["queryResult"].get("outputContexts")))
             num_fail = req["queryResult"]["parameters"].get("num_fail", None)
@@ -122,7 +108,7 @@ def webhook():
             if USE_RASA:
                 # print(req["queryResult"])
                 queryText = req["queryResult"]["queryText"]
-                rasa = perform_intent_entity_recog_with_rasa(queryText)
+                rasa = perform_intent_entity_recog_with_rasa(queryText, RASA_URL)
                 dialogflow_intent_name = rasa['intent_name']
 
                 if rasa is not None:
