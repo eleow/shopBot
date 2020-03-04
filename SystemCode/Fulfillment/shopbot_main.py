@@ -21,6 +21,8 @@ from intent_whatis import whatis_intent_handler
 from richMessageHelper import displayWelcome_slack
 from rasa_helper import perform_intent_entity_recog_with_rasa
 
+# import flask_profiler
+
 USE_RASA = True
 RASA_CONFIDENCE_THRESHOLD = 0.7
 
@@ -65,6 +67,21 @@ else:
 print(" * PUBLIC URL: " + PUBLIC_URL)
 print(" * RASA URL: " + RASA_URL)
 app = Flask(__name__)
+# app.config["DEBUG"] = True
+# app.config["flask_profiler"] = {
+#     "enabled": app.config["DEBUG"],
+#     "storage": {
+#         "engine": "sqlite"
+#     },
+#     "basicAuth": {
+#         "enabled": True,
+#         "username": "admin",
+#         "password": "admin"
+#     },
+#     "ignore": [
+#         "^/static/.*"
+#     ]
+# }
 
 
 # *****************************
@@ -134,6 +151,8 @@ def webhook():
             followupEvent = {"name": "WELCOME", "parameters": {"unknown": True, "num_fail": 1}}
             return make_response(jsonify({"followupEventInput": followupEvent}))
 
+
+# flask_profiler.init_app(app)
 
 # ***************************
 # WEBHOOK MAIN ENDPOINT : END

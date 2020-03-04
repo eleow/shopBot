@@ -8,9 +8,9 @@ import random
 from os import chdir
 from os.path import dirname, realpath
 from flask import make_response, jsonify
-
 import spacy
-nlp = spacy.load('en_core_web_md')
+
+nlp = None  # spacy.load('en_core_web_md')
 
 # **********************
 # UTIL FUNCTIONS : END
@@ -56,6 +56,8 @@ def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
 
 
 def whatis_intent_handler(req, public_url):
+    global nlp
+
     returnText = []
     item = req["queryResult"]["parameters"].get("ent_whatis_query", None)
     query = item.strip().lower()
@@ -63,6 +65,9 @@ def whatis_intent_handler(req, public_url):
     # lazy initialisation of WHATIS_DIC from a file.
     # alternatively we can query a DB
     if (not bool(WHATIS_DIC)): initialise_lookup_table()
+    if (nlp is None):
+        if 'heroku' in public_url: nlp = spacy.load('en_core_web_sm')  # quickfix, due to R14 memory error in Heroku (similarity results will NOT be good!)
+        else: nlp = spacy.load('en_core_web_md')
 
     # Try to get description from WHATIS_DIC based on exact match
     dic_val = WHATIS_DIC.get(query, None)

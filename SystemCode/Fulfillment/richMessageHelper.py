@@ -1,7 +1,7 @@
 import urllib.parse as urllib
 import random
 
-BOT_NAME = 'Bob'
+BOT_NAME = 'AudioPhil'
 BOT_TYPE = 'shopping bot'
 BOT_DOMAIN = 'earphones and headphones'
 
@@ -19,7 +19,7 @@ def displayWelcome_slack(public_url, default_header_msg=None, additional_header=
     ]
     intro = random.choice(introArr) if not additional_header else additional_header
 
-    intro2 = "• Find headphones that match your preferences\n• Learn more about headphone types"
+    intro2 = "• Find headphones that match your preferences\n• Learn more about headphone/earphone terminology "
     # body2 = "" # body2 = "Or just click one of the buttons below:"
 
     header_msg1 = intro + "\n\nHere's a couple of the things you can do:\n" + intro2
