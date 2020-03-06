@@ -1,10 +1,17 @@
-<!-- templates/index.html -->
-<html>
-  <head>
-    <title>ShopBot Flask Test Page</title>
-  </head>
-  <body>
-    <h1>{{message}}</h1>
+{% extends 'base.html' %}
+{% block title %}ShopBot Flask Home Page{% endblock %}
+{% block scripthead %}
+{% endblock %}
+{% block content %}
+    <h1>ShopBot</h1>
     <img src="{{img}}" style="height:200px;">
-  </body>
-</html>
+    <p>Please access the chatbot through facebook messenger</p>
+    <h2>{{message1}}</h2>
+    <h2>{{message2}}</h2>
+    <button class="ping" type="button">Wake RASA server on Heroku up</button>
+    <h2 id="status"></h2>
+
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+
+{% endblock %}

@@ -20,6 +20,7 @@ from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
 from richMessageHelper import displayWelcome_slack
 from rasa_helper import perform_intent_entity_recog_with_rasa
+from custom_decorators import crossdomain
 
 # import flask_profiler
 
@@ -88,10 +89,12 @@ app = Flask(__name__)
 # WEBHOOK MAIN ENDPOINT : START
 # *****************************
 @app.route('/', methods=['POST', 'GET'])
+@crossdomain(origin='*')
 def webhook():
     if (request.method == 'GET'):
-        message = "Flask Webhook is running @ " + PUBLIC_URL
-        return render_template('index.html', message=message, img="/static/logo.png")
+        message1 = "Flask Webhook is running @ " + PUBLIC_URL
+        message2 = "RASA server is hosted @ " + RASA_URL
+        return render_template('index.html', message1=message1, message2=message2, img="/static/logo.png")
 
     elif (request.method == 'POST'):
 
@@ -150,6 +153,10 @@ def webhook():
             # If not using RASA or if rasa confidence < RASA_CONFIDENCE_THRESHOLD
             followupEvent = {"name": "WELCOME", "parameters": {"unknown": True, "num_fail": 1}}
             return make_response(jsonify({"followupEventInput": followupEvent}))
+
+@app.route('/privacypolicy', methods=['POST', 'GET'])
+def privacy():
+    return render_template('privacypolicy.html', img="/static/logo.png")
 
 
 # flask_profiler.init_app(app)
