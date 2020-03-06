@@ -18,7 +18,7 @@ import sys
 import random
 from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
-from richMessageHelper import displayWelcome_slack
+from richMessageHelper import displayWelcome_slack, getUserName
 from rasa_helper import perform_intent_entity_recog_with_rasa
 from custom_decorators import crossdomain
 
@@ -84,7 +84,6 @@ app = Flask(__name__)
 #     ]
 # }
 
-
 # *****************************
 # WEBHOOK MAIN ENDPOINT : START
 # *****************************
@@ -97,7 +96,6 @@ def webhook():
         return render_template('index.html', message1=message1, message2=message2, img="/static/logo.png")
 
     elif (request.method == 'POST'):
-
         req = request.get_json(silent=True, force=True, cache=False)
         intent_name = req["queryResult"]["intent"]["displayName"].lower()  # get intent in lower characters
         action = req["queryResult"].get("action", None)
@@ -107,6 +105,11 @@ def webhook():
             return whatis_intent_handler(req, PUBLIC_URL)
 
         elif action in ["WELCOME"] or "default welcome intent" in intent_name:
+
+            # Try to get first name of user from platform's API
+            intentRequest = req['originalDetectIntentRequest']
+            first_name = getUserName(intentRequest)
+
             # wasRedirected = (req["queryResult"].get("outputContexts") is not None and any(
             #     "welcome" in d["name"] for d in req["queryResult"].get("outputContexts")))
             num_fail = req["queryResult"]["parameters"].get("num_fail", None)
@@ -115,13 +118,14 @@ def webhook():
 
             dontUnderstand = [
                 "I don't really understand that. Could you say that again?",
-                "Erm.. I didn't catch that."
+                "Erm.. I didn't catch that.",
                 "Sorry, could you rephrase that?"
             ]
             returnDontUnderstand = random.choice(dontUnderstand)
 
             additional_header = None if not wasRedirected else returnDontUnderstand
-            return make_response(jsonify(displayWelcome_slack(PUBLIC_URL, additional_header=additional_header)))
+            return make_response(jsonify(displayWelcome_slack(PUBLIC_URL,
+                additional_header=additional_header, first_name=first_name)))
 
         else:
 
@@ -153,6 +157,7 @@ def webhook():
             # If not using RASA or if rasa confidence < RASA_CONFIDENCE_THRESHOLD
             followupEvent = {"name": "WELCOME", "parameters": {"unknown": True, "num_fail": 1}}
             return make_response(jsonify({"followupEventInput": followupEvent}))
+
 
 @app.route('/privacypolicy', methods=['POST', 'GET'])
 def privacy():
