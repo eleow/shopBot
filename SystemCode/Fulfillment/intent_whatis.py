@@ -10,7 +10,8 @@ from os.path import dirname, realpath
 from flask import make_response, jsonify
 import spacy
 
-nlp = None  # spacy.load('en_core_web_md')
+# nlp = None  # spacy.load('en_core_web_md')
+nlp = spacy.load('en_core_web_md')
 
 # **********************
 # UTIL FUNCTIONS : END
@@ -60,6 +61,11 @@ def whatis_intent_handler(req, public_url):
 
     returnText = []
     item = req["queryResult"]["parameters"].get("ent_whatis_query", None)
+    if item is None or item == "":
+        print('Warning: Intent is detected but failed to extract entity')
+        followupEvent = {"name": "WELCOME", "parameters": {"num_fail": 1}}
+        return make_response(jsonify({"followupEventInput": followupEvent}))
+
     query = item.strip().lower()
 
     # lazy initialisation of WHATIS_DIC from a file.

@@ -1,1 +1,1 @@
-web: python ./SystemCode/Fulfillment/shopbot_main.py 0
+web: python ./SystemCode/Fulfillment/shopbot_main.py -s True

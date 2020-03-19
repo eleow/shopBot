@@ -2,8 +2,9 @@
 
 import ./common.chatito
 
-%[bye]('training': '50', 'testing': '50')
+%[bye]('training': '100', 'testing': '100')
     *[20%] ~[bye]
+    *[10%] ~[bye] ~[singlish_end]
     ~[thanks?] ~[bye]
     ~[bye] ~[thanks?]
     ~[leaving]

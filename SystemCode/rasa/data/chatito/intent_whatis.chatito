@@ -3,12 +3,18 @@ import ./common.chatito
 # https://rodrigopivi.github.io/Chatito/
 # Chatito file for intent_whatis
 %[intent_whatis]('training':'1000', 'testing':'1000')
-    *[30%] ~[hi?] ~[name?] ~[could] I know what is @[term] ~[thanks?]
-    what is @[term] ~[singlish_end?]
+    *[30%] ~[hi?] ~[name?] ~[could] I know what ~[is] @[term] ~[thanks?]
+    what ~[is] @[term] ~[singlish_end?]
     can explain @[term]?
     I would like to know about @[term]
     need to know @[term]
     tell me about @[term]
+
+~[is]
+    is
+    are
+    was
+    were
 
 ~[name]
     bot
@@ -20,43 +26,6 @@ import ./common.chatito
     audiophile
     oei
     whey
-
-~[could]
-    could
-    might
-    may
-    can
-
-~[hi]
-    hi
-    hello
-    hey
-    yo
-    yoz
-    morning
-    afternoon
-    evening
-    good morning
-    good afternoon
-    good evening
-
-~[please]
-    please
-    plz
-    pls
-
-~[thanks]
-    thanks
-    thank you
-    thank
-    thks
-
-~[singlish_end]
-    la
-    lah
-    lo
-    leh
-    le
 
 @[term]
     earphone
@@ -134,7 +103,7 @@ import ./common.chatito
     listening fatigue
     lush
     mini plug
-    mp3 mpeg layer 3 file.
+    mp3 mpeg layer 3 file
     neodymium magnets
     noise attenuation
     noise cancelling headphones

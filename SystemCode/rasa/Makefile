@@ -24,7 +24,7 @@ rasa_test_nlu:
 	rasa test nlu -m models/nlu_rasa.tar.gz --nlu data/nlu_test
 
 rasa_run:
-	rasa run --enable-api -m models/nlu_rasa.tar.gz --cors "*"
+	rasa run --enable-api -m models/nlu_rasa.tar.gz --cors "*" -p 5015
 
 d_rasa_train_nlu:
 	docker run -v $(CURRENT_DIR):/app $(IMAGE) train nlu -c config.yml --nlu data/nlu_train --fixed-model-name nlu_rasa

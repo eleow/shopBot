@@ -13,60 +13,83 @@
 # import argparse
 
 import os
-from flask import render_template
-import sys
+import argparse
 import random
+from flask import render_template
 from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
 from richMessageHelper import displayWelcome_slack, getUserName
 from rasa_helper import perform_intent_entity_recog_with_rasa
-from custom_decorators import crossdomain
-
+from utils import crossdomain, str2bool  # , get_memory_size_locals
+from colorama import Fore, Back, Style
 # import flask_profiler
 
-USE_RASA = True
-RASA_CONFIDENCE_THRESHOLD = 0.7
+# Parse input arguments
+parser = argparse.ArgumentParser()
+parser.add_argument("-n", "--ngrok", type=str2bool, default=False, help='Bool indicating whether to automatically launch ngrok')
+parser.add_argument("-s", "--server", type=str2bool, default=False, help='Bool indicating whether running on heroku server')
+parser.add_argument("-r", "--rasa", type=str2bool, default=True,
+    help='Bool indicating whether to enable RASA NLU server. If running locally, ensure that you launch RASA server on your own')
+parser.add_argument("-t", "--threshold", type=float, default=0.7, help='RASA threshold to pass RASA intent classification. Range 0-1')
+parser.add_argument("-d", "--debug", type=str2bool, default=False, help='Flask debug mode')
+# args = vars(parser.parse_args())
+args, unknown = parser.parse_known_args()
+args = vars(args)
+RUN_NGROK = args['ngrok']
+RUN_ON_SERVER = args['server']
+USE_RASA = args['rasa']
+RASA_CONFIDENCE_THRESHOLD = args['threshold']
+DEBUG = args['debug']
 
-global RUN_NGROK
-RUN_NGROK = False
-if len(sys.argv) == 2:
-    RUN_NGROK = False if sys.argv[1] != '1' else True
-
-
-# import colorama
-# colorama.init()
-
-# For running ngok directly from python
 PUBLIC_URL = ""
 RASA_URL = ""
-if RUN_NGROK:
-    from pyngrok import ngrok
-    from os.path import dirname, join, realpath
 
-    dir_path = dirname(realpath(__file__))
-    ngrok.DEFAULT_CONFIG_PATH = join(dir_path, "ngrok.yml")
-    # ngrok.DEFAULT_NGROK_PATH = join(dir_path, "ngrok.exe")
-    # tunnels = ngrok.get_tunnels(ngrok_path=join(dir_path, "ngrok.exe"))
-    tunnels = ngrok.get_tunnels()
-    if (len(tunnels) == 0):
-        PUBLIC_URL = ngrok.connect(port=5000, proto="http")
-    else:
-        PUBLIC_URL = tunnels[0].public_url
-
-    RASA_URL = "http://localhost:5015"
-    print("--------------------------------------------------------------------")
-    print(" Flask will be run from ngrok")
-    print(" RASA server should be started manually and point to localhost:5005")
-    print("--------------------------------------------------------------------")
-else:
+print("--------------------------------------------------------------------")
+if RUN_ON_SERVER:
+    # running on server, no need to run ngrok
     PUBLIC_URL = "https://shopbotsg.herokuapp.com/"  # ShopBot main logic
     RASA_URL = "http://testshop1606.herokuapp.com"   # Rasa NLU server (app will be either rename or hopefully combined into shopbot)
-    print("--------------------------------------------------------------------")
-    print(" Flask will be run from Heroku / Ngrok will be run separately")
-    print("--------------------------------------------------------------------")
+    print(" Flask is executed from Heroku")
+else:
+    # running locally. We can either automatically run ngrok or not
+    # The disadvantage of running ngrok automatically is that
+    # any restarting of flask will require ngrok to be restarted & therefore reconfiguration on dialogflow fulfillment page
+    if RUN_NGROK:
+        from pyngrok import ngrok
+        from os.path import dirname, join, realpath
 
+        dir_path = dirname(realpath(__file__))
+        ngrok.DEFAULT_CONFIG_PATH = join(dir_path, "ngrok.yml")
+        # ngrok.DEFAULT_NGROK_PATH = join(dir_path, "ngrok.exe")
+        # tunnels = ngrok.get_tunnels(ngrok_path=join(dir_path, "ngrok.exe"))
+        tunnels = ngrok.get_tunnels()
+        if (len(tunnels) == 0):
+            PUBLIC_URL = ngrok.connect(port=5000, proto="http")
+        else:
+            PUBLIC_URL = tunnels[0].public_url
+
+        print(" Flask is executed locally and ngrok will be started automatically")
+    else:
+        print(Fore.RED + " Flask is executed locally")
+        print(" Run ngrok manually to get a public URL for DialogFlow fulfillment webhook and enter below:"
+              + Style.RESET_ALL)
+        PUBLIC_URL = input()
+        print()
+    #
+    if USE_RASA:
+        RASA_URL = "http://localhost:5015"
+        print(" RASA will be used for Intent classification and entity detection")
+        print(Fore.RED + " RASA server should be started manually and point to localhost:5015")
+        print(" In the root directory, use command: make rasa_run" + Style.RESET_ALL)
+    else:
+        print(" DialogFlow will be used for Intent classification and entity detection")
+
+
+print("--------------------------------------------------------------------")
+print(Fore.GREEN)
 print(" * PUBLIC URL: " + PUBLIC_URL)
 print(" * RASA URL: " + RASA_URL)
+print(Style.RESET_ALL)
 app = Flask(__name__)
 # app.config["DEBUG"] = True
 # app.config["flask_profiler"] = {
@@ -112,7 +135,7 @@ def webhook():
 
             # wasRedirected = (req["queryResult"].get("outputContexts") is not None and any(
             #     "welcome" in d["name"] for d in req["queryResult"].get("outputContexts")))
-            num_fail = req["queryResult"]["parameters"].get("num_fail", None)
+            num_fail = req["queryResult"]["outputContexts"][0]['parameters'].get("num_fail", None)
             wasRedirected = num_fail is not None and num_fail > 0
             print('num failed', num_fail)
 
@@ -155,7 +178,7 @@ def webhook():
                         return make_response(jsonify({"followupEventInput": followupEvent}))
 
             # If not using RASA or if rasa confidence < RASA_CONFIDENCE_THRESHOLD
-            followupEvent = {"name": "WELCOME", "parameters": {"unknown": True, "num_fail": 1}}
+            followupEvent = {"name": "WELCOME", "parameters": {"num_fail": 1}}
             return make_response(jsonify({"followupEventInput": followupEvent}))
 
 
@@ -174,4 +197,4 @@ def privacy():
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print("Starting app on port %d" % port)
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=DEBUG, host='0.0.0.0', port=port)

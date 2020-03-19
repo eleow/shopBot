@@ -2,8 +2,9 @@
 
 import ./common.chatito
 
-%[affirmative]('training': '50', 'testing': '50')
+%[affirmative]('training': '100', 'testing': '100')
     *[20%] ~[yes]
+    *[10%] ~[yes] ~[singlish_end]
     ~[yes] ~[please?]
     ~[yes] ~[yes?] ~[thanks?]
     ~[yes?] ~[that is good] ~[yes?]
