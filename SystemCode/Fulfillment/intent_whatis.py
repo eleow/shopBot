@@ -18,7 +18,7 @@ nlp = spacy.load('en_core_web_md')
 # **********************
 global WHATIS_DIC
 WHATIS_DIC = {}
-WHATIS_SOURCE = './data/glossary.csv'
+WHATIS_SOURCE = './data/glossary_cleaned.csv'
 
 
 def initialise_lookup_table():
@@ -34,6 +34,11 @@ def initialise_lookup_table():
         reader = csv.reader(infile)
         for row in reader:
             WHATIS_DIC[row[0].strip().lower()] = (row[1], row[2])  # tuple of description, source
+
+            # Expand synonyms / Copy description and source
+            synonyms = row[3].split(',')
+            for s in synonyms:
+                WHATIS_DIC[s.strip().lower()] = (row[1], row[2])
 
 
 def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):

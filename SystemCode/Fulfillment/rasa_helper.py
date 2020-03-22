@@ -2,6 +2,8 @@ import string
 # from json import dumps, loads
 import requests
 from requests.exceptions import HTTPError
+import nltk
+sb_stemmer = nltk.stem.snowball.SnowballStemmer("english", ignore_stopwords=True)
 
 # Lookup table to convert RASA entity to DialogFlow entity
 rasa_to_dialogFlow_entity = {
@@ -41,7 +43,11 @@ def perform_intent_entity_recog_with_rasa(queryText, rasa_base_url):
 
     # strip punctuation, convert to lower before passing to RASA-NLU server
     payload = ''.join([t for t in queryText if t not in string.punctuation]).lower()
-    rasa_response = get_response_from_rasa(payload, rasa_base_url)
+
+    # perform stemming using snowball
+    payload_stemmed = sb_stemmer.stem(payload)
+
+    rasa_response = get_response_from_rasa(payload_stemmed, rasa_base_url)
 
     if (rasa_response is not None):
         rasa_intent_name = rasa_response['intent']["name"]
