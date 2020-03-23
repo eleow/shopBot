@@ -10,6 +10,7 @@ import ./common.chatito
     need to know @[term]
     tell me about @[term]
     why ~[is] @[term] ~[useful]
+    *[5%] @[term]
 
 ~[is]
     is
@@ -36,8 +37,6 @@ import ./common.chatito
     whey
 
 @[term]
-    earphone
-    wireless earphones
     2.4 ghz
     900 mhz
     airline adapter
@@ -49,52 +48,47 @@ import ./common.chatito
     asymmetrical cord
     attenuator
     automatic call distributor
-    balanced headphones
+    balanced headphone
     behind-the-neck
-    biaural or binaural
+    biaural
     binaural recording
     bluetooth
     boom microphone
     bright
-    circumaural
     clipping
     closed
     closed-back
     coaxial
     coherent
-    convertible headphones
+    convertible headphone
     crossfeed
     current
-    custom earphones
+    custom earphone
     dac
     damping factor
     dbr
-    db
     decibel
     digital
-    digital inputs
-    directional microphones
+    directional microphone
     distortion
     diy
     driver
-    ear clips
-    ear hangers
+    ear clip
+    ear hanger
     ear headphone
     earbud
-    earbud gels
+    earbud gel
     earcup
     earpad
     efficiency
     filter switch
     folding headband
     frequency response
-    full size
     full-sized jack
     gain switch
     harmonic distortion
     headphone amplifier
     headphone efficiency
-    headphone sensitivity
     image depth
     image width
     imaging
@@ -111,14 +105,13 @@ import ./common.chatito
     listening fatigue
     lush
     mini plug
-    mp3 mpeg layer 3 file
-    neodymium magnets
+    mp3
+    neodymium magnet
     noise attenuation
-    noise cancelling headphones
-    noise-compensation
-    noise-isolating
+    noise cancelling
+    noise isolating
     ohms
-    omni-directional
+    omni directional
     on-ear
     on-the-ear
     op-amp
@@ -128,7 +121,7 @@ import ./common.chatito
     otl tube amps
     output impedance
     over-ear
-    portable headphones
+    portable headphone
     power amplifier
     power supply
     punch
@@ -136,15 +129,15 @@ import ./common.chatito
     resonance
     s/pdif
     sealed
-    self-powered speakers
+    self-powered speaker
     single-sided cord
     solid state
     soundstage
     speaker
-    sport headphones
+    sport headphone
     square wave response
     supra-aural
-    swivel earcups
+    swivel earcup
     talkthrough button
     transient response
     transistor

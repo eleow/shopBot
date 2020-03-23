@@ -32,6 +32,17 @@
 - need to check something
 - hey i need to check
 - could you tell me something
+- what is [bluetooth](term)
+- what is [harmonic distortion](term)
+- tell me about [isolation](term)
+- [mp3](term)
+- [neodymium magnet](term)
+- [wireless](term)
+- [noise cancelling](term)
+- [earbud](term)
+- [crossfeed](term)
+- [bluetooth](term)
+
 
 ## lookup:term
 data/entity_whatis_term.txt

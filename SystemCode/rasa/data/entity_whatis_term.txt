@@ -9,46 +9,44 @@ around-the-ear
 asymmetrical cord
 attenuator
 automatic call distributor
-balanced headphones
+balanced headphone
 behind-the-neck
-biaural or binaural
+biaural
 binaural recording
 bluetooth
 boom microphone
 bright
-circumaural
 clipping
 closed
 closed-back
 coaxial
 coherent
-convertible headphones
+convertible headphone
 crossfeed
 current
-custom earphones
+custom earphone
 dac
 damping factor
 dbr
 decibel
-decibel db
+db
 digital
-digital inputs
-directional microphones
+directional microphone
 distortion
 diy
 driver
-ear clips
-ear hangers
+ear clip
+ear hanger
 ear headphone
 earbud
-earbud gels
+earbud gel
+earbud sleeve
 earcup
 earpad
 efficiency
 filter switch
 folding headband
 frequency response
-full size
 full-sized jack
 gain switch
 harmonic distortion
@@ -61,6 +59,11 @@ imaging
 impedance
 in-ear
 in-ear monitor
+in-ear headphone
+iems
+ear canal headphones
+earphones
+canal-phones
 in-the-ear
 infrared ir transmission
 input impedance
@@ -71,14 +74,14 @@ liquid sounding
 listening fatigue
 lush
 mini plug
-mp3 mpeg layer 3 file
-neodymium magnets
+mp3
+neodymium magnet
 noise attenuation
-noise cancelling headphones
-noise-compensation
-noise-isolating
+noise cancelling
+noise compensation
+noise isolating
 ohms
-omni-directional
+omni directional
 on-ear
 on-the-ear
 op-amp
@@ -88,7 +91,9 @@ optical
 otl tube amps
 output impedance
 over-ear
-portable headphones
+full-size
+circumaural
+portable headphone
 power amplifier
 power supply
 punch
@@ -96,15 +101,15 @@ radio frequency rf transmission
 resonance
 s/pdif
 sealed
-self-powered speakers
+self-powered speaker
 single-sided cord
 solid state
 soundstage
 speaker
-sport headphones
+sport headphone
 square wave response
 supra-aural
-swivel earcups
+swivel earcup
 talkthrough button
 transient response
 transistor

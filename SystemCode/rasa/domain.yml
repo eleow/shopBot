@@ -1,0 +1,9 @@
+intents:
+  - greet
+  - bye
+  - affirmative
+  - negative
+  - intent_whatis
+
+entities:
+  - term

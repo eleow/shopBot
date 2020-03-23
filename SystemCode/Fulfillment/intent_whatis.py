@@ -36,9 +36,10 @@ def initialise_lookup_table():
             WHATIS_DIC[row[0].strip().lower()] = (row[1], row[2])  # tuple of description, source
 
             # Expand synonyms / Copy description and source
-            synonyms = row[3].split(',')
-            for s in synonyms:
-                WHATIS_DIC[s.strip().lower()] = (row[1], row[2])
+            if (row[3] != ''):
+                synonyms = row[3].split(',')
+                for s in synonyms:
+                    WHATIS_DIC[s.strip().lower()] = (row[1], row[2])
 
 
 def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
