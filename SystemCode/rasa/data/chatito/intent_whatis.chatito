@@ -4,8 +4,8 @@ import ./common.chatito
 # Chatito file for intent_whatis
 %[intent_whatis]('training':'1000', 'testing':'1000')
     *[30%] ~[hi?] ~[name?] ~[could] I know what ~[is] @[term] ~[thanks?]
-    what ~[is] @[term] ~[singlish_end?]
-    can explain @[term]?
+    what ~[is] @[term]
+    can explain @[term]
     I would like to know about @[term]
     need to know @[term]
     tell me about @[term]

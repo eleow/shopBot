@@ -1,4 +1,5 @@
 import string
+import re
 # from json import dumps, loads
 import requests
 from requests.exceptions import HTTPError
@@ -16,6 +17,14 @@ rasa_to_dialogFlow_intent = {
     "intent_whatis": "intent_whatis_query",
     "intent_price": "intent_price_query"
 }
+
+# Our users will be singaporeans - Remove singlish end-words
+singlish_base = ['la', 'lo', 'le', 'ar']
+singlish_stopwords = singlish_base.copy()
+singlish_stopwords.extend([s + 'r' for s in singlish_base])
+singlish_stopwords.extend([s + 'h' for s in singlish_base])
+singlish_stopwords.extend(['eh', 'er', 'liao'])
+singlish_list = '[.?!]?$|'.join(singlish_stopwords)  # for regex - match words at end of sentence
 
 
 def get_response_from_rasa(payload, rasa_base_url):
@@ -43,10 +52,13 @@ def get_response_from_rasa(payload, rasa_base_url):
 
 def perform_intent_entity_recog_with_rasa(queryText, rasa_base_url):
 
-    # strip punctuation, convert to lower before passing to RASA-NLU server
-    payload = ''.join([t for t in queryText if t not in string.punctuation]).lower()
+    # remove singlish stopwords at end of sentence
+    queryText_no_singlish = re.sub(singlish_list, '', queryText.lower().trim())
 
-    # perform stemming using snowball
+    # strip punctuation, convert to lower before passing to RASA-NLU server
+    payload = ''.join([t for t in queryText_no_singlish if t not in string.punctuation]).lower()
+
+    # perform stemming using snowball (this helps to make words singular)
     payload_stemmed = sb_stemmer.stem(payload)
 
     rasa_response = get_response_from_rasa(payload_stemmed, rasa_base_url)
