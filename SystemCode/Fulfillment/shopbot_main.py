@@ -18,10 +18,11 @@ import random
 from flask import render_template
 from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
+from intent_price import price_intent_handler
 from richMessageHelper import displayWelcome_slack, getUserName
 from rasa_helper import perform_intent_entity_recog_with_rasa
 from utils import crossdomain, str2bool  # , get_memory_size_locals
-from colorama import Fore, Back, Style
+from colorama import Fore, Style
 # import flask_profiler
 
 # Parse input arguments
@@ -126,6 +127,8 @@ def webhook():
         # Intent for query of terms
         if (intent_name == "intent_whatis_query"):
             return whatis_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "intent_price_query"):
+            return price_intent_handler(req, PUBLIC_URL)
 
         elif action in ["WELCOME"] or "default welcome intent" in intent_name:
 

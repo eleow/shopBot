@@ -7,12 +7,14 @@ sb_stemmer = nltk.stem.snowball.SnowballStemmer("english", ignore_stopwords=True
 
 # Lookup table to convert RASA entity to DialogFlow entity
 rasa_to_dialogFlow_entity = {
-    "term": "ent_whatis_query"
+    "term": "ent_whatis_query",
+    "model": "ent_price_query"
 }
 
 # Lookup table to convert RASA intents to DialogFlow intents
 rasa_to_dialogFlow_intent = {
-    "intent_whatis": "intent_whatis_query"
+    "intent_whatis": "intent_whatis_query",
+    "intent_price": "intent_price_query"
 }
 
 
