@@ -1,5 +1,6 @@
 import string
 import re
+import unidecode
 # from json import dumps, loads
 import requests
 from requests.exceptions import HTTPError
@@ -25,6 +26,11 @@ singlish_stopwords.extend([s + 'r' for s in singlish_base])
 singlish_stopwords.extend([s + 'h' for s in singlish_base])
 singlish_stopwords.extend(['eh', 'er', 'liao'])
 singlish_list = '[.?!]?$|'.join(singlish_stopwords)  # for regex - match words at end of sentence
+
+# Common synonyms that we can replace
+synonyms_dict = {
+    "b&o": "Bang & Olufsen"
+}
 
 
 def get_response_from_rasa(payload, rasa_base_url):
@@ -52,8 +58,11 @@ def get_response_from_rasa(payload, rasa_base_url):
 
 def perform_intent_entity_recog_with_rasa(queryText, rasa_base_url):
 
+    # convert any unicode string to closest ASCII (eg motörheadphönes --> motorheadphones)
+    unaccentedText = unidecode.unidecode(u'' + queryText)
+
     # remove singlish stopwords at end of sentence
-    queryText_no_singlish = re.sub(singlish_list, '', queryText.lower().trim())
+    queryText_no_singlish = re.sub(singlish_list, '', unaccentedText.lower().trim())
 
     # strip punctuation, convert to lower before passing to RASA-NLU server
     payload = ''.join([t for t in queryText_no_singlish if t not in string.punctuation]).lower()

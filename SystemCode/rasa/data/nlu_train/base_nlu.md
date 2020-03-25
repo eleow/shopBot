@@ -44,5 +44,18 @@
 - [bluetooth](term)
 
 
+## intent:intent_price
+- what is the price for [k361](model)
+- price [k550](model)
+- hey need price [beats](brand) [studio3](model)
+- tell me price [westone](brand) [es80](model)
+
+
 ## lookup:term
 data/entity_whatis_term.txt
+
+## lookup:brand
+data/entity_brand.txt
+
+## lookup:model
+data/entity_model.txt

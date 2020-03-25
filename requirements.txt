@@ -8,3 +8,6 @@ https://github.com/explosion/spacy-models/releases/download/en_core_web_md-2.2.5
 https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
 rasa==1.7.3
 tensorflow==1.13.1
+unidecode
+xlrd
+networkx

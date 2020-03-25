@@ -1,0 +1,158 @@
+import ./common.chatito
+
+# https://rodrigopivi.github.io/Chatito/
+# Chatito file for intent_price
+%[intent_price]('training':'1000', 'testing':'1000')
+    *[30%] ~[hi?] ~[name?] ~[could] I know what ~[is] the price of @[brand?] @[model] ~[thanks?]
+    what ~[is] price for @[brand?] @[model]
+    get me the price for @[brand?] @[model]
+    get price @[brand?] @[model]
+    price @[brand?] @[model]
+    @[brand?] @[model] price
+    ~[hi?] where to get @[brand?] @[model]
+    *[5%] @[brand?] @[model]
+    *[5%] @[brand]
+
+@[brand]
+    1more
+    aaw
+    adaro
+    advanced
+    aftershokz
+    akg
+    astell&kern
+    astrotec
+    atomic floyd
+    audeze
+    audio technica
+    audiofly
+    audioquest
+    audiosense
+    auglamour
+    aventho
+    aviot
+    bang & olufsen
+    beats
+    beyerdynamic
+    bose
+    bragi
+    brainwavz
+    buddyphones
+    calvin
+    campfire audio
+    cayin
+    cooler master
+    crazybaby
+    creative
+    cresyn
+    curve
+    denon
+    dita
+    dopplerlabs
+    dunu
+    e12
+    earin
+    echobox
+    edifier
+    erato
+    etymotic
+    fender
+    fh7
+    fiio
+    final
+    final audio
+    final sonorous
+    fischer audio
+    focal spirit
+    fostex
+    future sonics
+    grado
+    ha
+    heir audio
+    hiby
+    hifiman
+    hisoundaudio
+    ibasso
+    ice lab
+    ikko
+    imr
+    iriver astell&kern
+    jabra
+    jadeaudio
+    jaybird
+    jays
+    jbl
+    jvc
+    kef
+    kennerton
+    kinera
+    klipsch
+    koss
+    kumitate
+    lear
+    lg
+    logitech
+    marshall
+    master & dynamic
+    mavin
+    mee audio
+    meze
+    momentum
+    monster
+    motorheadphones
+    mrspeakers
+    mw07
+    nad
+    nakamichi
+    nocs
+    nocturnal
+    nuarl
+    nuforce
+    onanoff
+    onkyo
+    oppo
+    oriolus
+    oriveti
+    pai
+    paiaudio
+    parrot
+    pendulumic
+    perfect seal
+    phiaton
+    philips
+    pioneer
+    plantronics
+    psb speakers
+    puma
+    purdio
+    rai
+    ranger
+    razer
+    recabling
+    rha
+    rock jaw
+    rza
+    sabbat
+    se
+    sennheiser
+    shure
+    skullcandy
+    sol republic
+    sony
+    soul
+    soundmagic
+    spinfit
+    sr1a
+    steelseries
+    sudio
+    tago
+    tdk
+    tiinlab
+    ultrasone
+    urbanears
+    ve
+    verum
+    westone
+    whizzer
+    yamaha
+    zero audio
