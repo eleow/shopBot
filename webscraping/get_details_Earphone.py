@@ -105,11 +105,12 @@ def populateFeatures(s,url,Name):
 
 #Function gives the description and features
 def getDescriptions(url,name,id):
-    
     s = readwebPage(url)
     populateFeatures(s,url,name)
     div = s.find_all('div')
     d = [d for d in div if 'class' in d.attrs.keys() and d['class']==['std']]
+    if len(d)<2:
+        return None
     Description["Name"].append(name)
     Description["URL"].append(url)
     Description["Features"].append(". ".join((d[0].text.strip().split('\n')))) 
@@ -132,7 +133,7 @@ def getDescriptions(url,name,id):
             d[1].strong.parent.decompose()
     img = d[1].find_all('img')
     for i in img:
-        if '.' in str(i['alt']):
+        if 'alt' in i.attrs.keys() and '.' in str(i['alt']):
             desc = i['alt'].split('.')
             Feature_dictionary["Feature_Name"].append(desc[0])
             Feature_dictionary["Description"].append(desc[1])
@@ -174,7 +175,7 @@ def returndiv1(url):
 #        headphone_labels.append(i.text)
         
 
-df = pd.read_excel('treoo_earphone.xls',index_col=0,names=['ID','Name','URL','IMAGE','PRICE'])    
+df = pd.read_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/treoo_dataset/treoo_earphone_headphone_directory.xls',index_col=0,names=['ID','Name','URL','IMAGE','PRICE'])    
 
 url = df.URL
 name = df.Name
@@ -189,7 +190,7 @@ df2 = pd.DataFrame(Feature_dictionary)
 df3 = pd.DataFrame(Description)  
 
 
-df1.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/features_treoo_earphone.xls')  
-df2.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/Feature_dictionary_earphone.xls')  
-df3.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/Description_earphone.xls')  
+df1.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/treoo_dataset/feature.xls')  
+df2.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/treoo_dataset/feature_dictionary.xls')  
+df3.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/treoo_dataset/description_earphone.xls')  
 

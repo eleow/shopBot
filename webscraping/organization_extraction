@@ -1,0 +1,120 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 15 17:30:43 2020
+
+@author: shashanknigam
+"""
+
+"""
+Data cleansing
+"""
+
+import pandas as pd
+import time as time
+df = pd.read_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/treoo_dataset/treoo_earphone_headphone_directory.xls',index_col = 0)
+product_name = list(sorted(list(df['Product Name'])))
+companyName = []
+productName = []
+for i in product_name:
+    i = i.replace('_',' ')
+    i = i.replace('-',' ')
+    if 'by' in i:
+        i = i.split()
+        for j in range(len(i)):
+            if "by"==i[j]:
+                companyName.append(i[j+1].strip())
+                print([i[j+1].strip()],i)
+    elif "Bang & Olufsen" in i or "B&O" in i.split()[0]:
+        companyName.append("Bang & Olufsen")
+        print(["Bang & Olufsen"],i)
+        
+    else:
+        tokens = i.split(' ') 
+        if tokens[0]=='Audio' and tokens[1]=='Technica':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)
+        elif tokens[0]=='Atomic' and tokens[1]=='Floyd':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)
+        elif tokens[0]=='Cooler' and tokens[1]=='Master':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)
+        elif tokens[0]=='Campfire' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)
+        elif tokens[0]=='Final' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)
+        elif tokens[0]=='Final' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)     
+        elif tokens[0]=='Fischer' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)
+        elif tokens[0]=='Focal' and tokens[1]=='Spirit':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)    
+        elif tokens[0]=='Future' and tokens[1]=='Sonics':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)    
+        
+        elif tokens[0]=='Heir' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)    
+        elif tokens[0]=='ICE' and tokens[1]=='LABs':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)    
+        elif tokens[0]=='MEE' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)  
+        elif "Master & Dynamic" in i:
+            companyName.append("Master & Dynamic")
+            print(["Master & Dynamic"],i)
+        elif tokens[0]=='PSB' and tokens[1]=='Speakers':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i) 
+        elif tokens[0]=='Perfect' and tokens[1]=='Seal':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)     
+        elif tokens[0]=='Rock' and tokens[1]=='Jaw':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)     
+        elif tokens[0]=='SOL' and tokens[1]=='Republic':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)         
+        elif tokens[0]=='RZA' and tokens[1]=='Premium':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i)         
+        elif tokens[0]=='Zero' and tokens[1]=='Audio':
+            companyName.append(tokens[0]+' '+tokens[1])
+            print([tokens[0]+' '+tokens[1]],i) 
+        elif 'fischeraudio' in i or 'fischer audio resolution' in i:
+            companyName.append("fischer audio resolution")
+            print(["fischer audio resolution"],i) 
+        else:
+            companyName.append(tokens[0])
+            print([tokens[0]],i)
+    time.sleep(0.1)
+"""
+This can be a simple entailment question
+"""
+
+
+
+#remove all the non a-z 0-9 characters - 
+
+"""
+Audio followed by Technia
+if Audio
+
+ATH - Company Name Audio-Technica
+Bang & Olufsen
+
+Cooler Followed by Master
+
+final Sonorous
+
+
+"""
+
