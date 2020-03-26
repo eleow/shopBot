@@ -107,7 +107,7 @@ Distributed under the [MIT License](LICENSE)
 ## Acknowledgements
 
 
-Shop assistant icon made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+Shop assistant icon modified from graphic by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
 
 
 <!-- MARKDOWN LINKS & IMAGES -->

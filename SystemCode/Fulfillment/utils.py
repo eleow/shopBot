@@ -2,6 +2,10 @@ from datetime import timedelta
 from flask import make_response, request, current_app
 from functools import update_wrapper
 import sys
+import argparse
+import unidecode
+import re
+
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
                 attach_to_all=True, automatic_options=True):
@@ -58,7 +62,7 @@ def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
 
 def sizeof_fmt(num, suffix='B'):
     ''' by Fred Cirera,  https://stackoverflow.com/a/1094933/1870254, modified'''
-    for unit in ['','Ki','Mi','Gi','Ti','Pi','Ei','Zi']:
+    for unit in ['', 'Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei', 'Zi']:
         if abs(num) < 1024.0:
             return "%3.1f %s%s" % (num, unit, suffix)
         num /= 1024.0
@@ -73,10 +77,50 @@ def get_memory_size_locals(scope):
 
 def str2bool(v):
     if isinstance(v, bool):
-       return v
+        return v
     if v.lower() in ('yes', 'true', 't', 'y', '1'):
         return True
     elif v.lower() in ('no', 'false', 'f', 'n', '0'):
         return False
     else:
         raise argparse.ArgumentTypeError('Boolean value expected.')
+
+
+def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName'):
+
+    # Clean-up Brand - perform unidecode
+    brands = df[brand_col].str.strip().str.lower()
+    brands = [unidecode.unidecode(u'' + b) for b in brands]
+    brands = [b.replace('senneheiser', 'sennheiser') for b in brands]
+    df[brand_col] = brands
+
+    # Clean-up ProductModelName
+    blacklist = [
+        'quietpoint(r) active', 'metal /',
+        'quincy jones signature series', 'waterproof walkman neckband',
+        '2nd generation'
+    ]
+    temp = []
+
+    for m in df[model_col]:
+        # remove symbols, unidecode
+        m = re.sub(r'[®]', '', unidecode.unidecode(m).strip().lower())
+
+        # manual removal of certain words that we know are 'wrong'
+        # probably not the most efficient method to do this, but whatever..
+        for black in blacklist:
+            m = m.replace(black, "")
+
+        # join lone letters to string containing digits (k 450 -> k450)
+        m = re.sub(r'^([a-zA-Z]){1}\s(\w?\d{1}\w)', r'\1\2', m)
+        m = re.sub(r'(.*)\s{1}([a-zA-Z]){1}\s(\w?\d{1}\w)', r'\1 \2\3', m)
+
+        temp.append(m.strip())
+
+    df[model_col] = temp
+
+    # Generate list of brands and models for rasa training
+    unique_brands = df[brand_col].unique()
+    unique_models = df[model_col].unique()
+
+    return df, unique_brands, unique_models

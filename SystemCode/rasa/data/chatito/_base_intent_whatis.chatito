@@ -1,0 +1,37 @@
+import ./common.chatito
+
+# https://rodrigopivi.github.io/Chatito/
+# Chatito file for intent_whatis
+%[intent_whatis]('training':'1000', 'testing':'1000')
+    *[30%] ~[hi?] ~[name?] ~[could] I know what ~[is] @[term] ~[thanks?]
+    what ~[is] @[term]
+    can explain @[term]
+    I would like to know about @[term]
+    need to know @[term]
+    tell me about @[term]
+    why ~[is] @[term] ~[useful]
+    *[5%] @[term]
+
+~[is]
+    is
+    are
+    was
+    were
+
+~[useful]
+    useful
+    needed
+    required
+    wanted
+    helpful
+
+~[name]
+    bot
+    robot
+    bob
+    audiophil
+    phil
+    phile
+    audiophile
+    oei
+    whey

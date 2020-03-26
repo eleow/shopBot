@@ -4,24 +4,28 @@
         to the respective entities of the chatito files
         to generate training and test samples
 """
-
-import csv
-import os
 import sys
+import os
+import csv
 import pandas as pd
-import unidecode
-import re
-
-visualise = True
+import pickle
+from shutil import copyfile
 
 print('Executing from ', os.path.dirname(sys.argv[0]))
 os.chdir(os.path.dirname(sys.argv[0]))
 
+sys.path.append("../../Fulfillment")  # Adds parent directory to python modules path.
+# from ...Fulfillment.utils import cleanup_product_list
+from utils import cleanup_product_list
+
+visualise = True
 
 # Generate lookup file for intent 'whatis', for entity 'term'
 WHATIS_SOURCE = '../../Fulfillment/data/glossary_cleaned.csv'
 WHATIS_DEST = 'entity_whatis_term.txt'
+WHATIS_CHATITO_BASE = './chatito/_base_intent_whatis.chatito'
 whatis_list = []
+
 
 with open(WHATIS_SOURCE, mode='r', encoding="utf-8-sig") as infile:
     reader = csv.reader(infile)
@@ -36,67 +40,58 @@ with open(WHATIS_SOURCE, mode='r', encoding="utf-8-sig") as infile:
                 whatis_list.append(s.strip().lower() + '\n')
 
 # print(whatis_list)
-print('Writing contents to ', WHATIS_DEST)
+print('Writing whatis_list to ', WHATIS_DEST)
 with open(WHATIS_DEST, 'w+') as f:
     f.writelines(whatis_list)
 
+print('Appending entities to chatito file for intent_whatis')
+whatis_chatito = WHATIS_CHATITO_BASE.replace('_base_', '')
+copyfile(WHATIS_CHATITO_BASE, whatis_chatito)
+with open(whatis_chatito, 'a') as f:
+    f.write('\n@[term]\n')
+    f.writelines([' '*4 + i for i in whatis_list])
+print()
 
 # Generate lookup file for intent 'price', for entity 'model' and 'brand'
 brand_model_dict = {}
 BRAND_MODEL_SRC = '../../Fulfillment/data/treoo_data.xls'
 BRAND_DEST = 'entity_brand.txt'
 MODEL_DEST = 'entity_model.txt'
+BRAND_MODEL_DEST = 'brand_model.pickle'
+PRICE_CHATITO_BASE = './chatito/_base_intent_price.chatito'
 
 df = pd.read_excel(BRAND_MODEL_SRC, index_col=0)
+df, unique_brands, unique_models = cleanup_product_list(df, 'Brand', 'ProductModelName')
+brand_model_dict = df.groupby(['Brand'])['ProductModelName'].apply(list).to_dict()
 
-# Clean-up Brand
-brands = df['Brand'].str.strip().str.lower()
-brands = [unidecode.unidecode(u'' + b) for b in brands]
-df['Brand'] = brands
-
-# Clean-up ProductModelName
-blacklist = [
-    'quietpoint(r) active', 'metal /',
-    'quincy jones signature series', 'waterproof walkman neckband',
-    '2nd generation'
-]
-temp = []
-
-for m in df['ProductModelName']:
-    # remove symbols, unidecode
-    m = re.sub(r'[®]', '', unidecode.unidecode(m).strip().lower())
-
-    # manual removal of certain words that we know are 'wrong'
-    # probably not the most efficient method to do this, but whatever..
-    for black in blacklist:
-        m = m.replace(black, "")
-
-    # join lone letters to string containing digits (k 450 -> k450)
-    m = re.sub(r'^([a-zA-Z]){1}\s(\w?\d{1}\w)', r'\1\2', m)
-    m = re.sub(r'(.*)\s{1}([a-zA-Z]){1}\s(\w?\d{1}\w)', r'\1 \2\3', m)
-
-    temp.append(m.strip())
-
-df['ProductModelName'] = temp
-
-# Generate list of brands and models for rasa training
 # have to manually add newlines before writing to file
-unique_brands = df['Brand'].unique()
 unique_brands = [b + '\n' for b in unique_brands]
-unique_models = df['ProductModelName'].unique()
 unique_models = [m + '\n' for m in unique_models]
 
-
-print('Writing contents to ', BRAND_DEST)
+print('Writing unique_brands to ', BRAND_DEST)
 with open(BRAND_DEST, 'w+') as f:
     f.writelines(unique_brands)
 
-print('Writing contents to ', MODEL_DEST)
+print('Writing unique_models to ', MODEL_DEST)
 with open(MODEL_DEST, 'w+') as f:
     f.writelines(unique_models)
     # for m in unique_models:
     #     print(m)
     #     f.write(m)
+
+print('Writing brand_model_dict to ', BRAND_MODEL_DEST)
+with open(BRAND_MODEL_DEST, 'wb+') as f:
+    pickle.dump(brand_model_dict, f)
+
+print('Appending entities to chatito file for intent_price')
+price_chatito = PRICE_CHATITO_BASE.replace('_base_', '')
+copyfile(PRICE_CHATITO_BASE, price_chatito)
+with open(price_chatito, 'a') as f:
+    f.write('\n@[brand]\n')
+    f.writelines([' '*4 + i for i in unique_brands])
+    f.write('\n@[model]\n')
+    f.writelines([' '*4 + i for i in unique_models])
+print()
 
 # if visualise:
 #     import networkx as nx

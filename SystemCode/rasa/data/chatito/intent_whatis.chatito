@@ -68,6 +68,7 @@ import ./common.chatito
     damping factor
     dbr
     decibel
+    db
     digital
     directional microphone
     distortion
@@ -78,6 +79,7 @@ import ./common.chatito
     ear headphone
     earbud
     earbud gel
+    earbud sleeve
     earcup
     earpad
     efficiency
@@ -89,12 +91,18 @@ import ./common.chatito
     harmonic distortion
     headphone amplifier
     headphone efficiency
+    headphone sensitivity
     image depth
     image width
     imaging
     impedance
     in-ear
     in-ear monitor
+    in-ear headphone
+    iems
+    ear canal headphones
+    earphones
+    canal-phones
     in-the-ear
     infrared ir transmission
     input impedance
@@ -109,6 +117,7 @@ import ./common.chatito
     neodymium magnet
     noise attenuation
     noise cancelling
+    noise compensation
     noise isolating
     ohms
     omni directional
@@ -121,6 +130,8 @@ import ./common.chatito
     otl tube amps
     output impedance
     over-ear
+    full-size
+    circumaural
     portable headphone
     power amplifier
     power supply

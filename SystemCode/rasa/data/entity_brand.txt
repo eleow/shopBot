@@ -59,7 +59,6 @@ sr1a
 ranger
 adaro
 razer
-senneheiser
 sennheiser
 momentum
 shure
