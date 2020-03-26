@@ -74,7 +74,7 @@ else:
         print(Fore.RED + " Flask is executed locally")
         print(" Run ngrok manually to get a public URL for DialogFlow fulfillment webhook and enter below:"
               + Style.RESET_ALL)
-        PUBLIC_URL = input()
+        PUBLIC_URL = input().strip()
         print()
     #
     if USE_RASA:
@@ -123,6 +123,7 @@ def webhook():
         req = request.get_json(silent=True, force=True, cache=False)
         intent_name = req["queryResult"]["intent"]["displayName"].lower()  # get intent in lower characters
         action = req["queryResult"].get("action", None)
+        print(intent_name)
 
         # Intent for query of terms
         if (intent_name == "intent_whatis_query"):

@@ -8,10 +8,11 @@ import random
 from os import chdir
 from os.path import dirname, realpath
 from flask import make_response, jsonify
-import spacy
+from rasa_helper import get_value_based_on_similar_key
 
-# nlp = None  # spacy.load('en_core_web_md')
-nlp = spacy.load('en_core_web_md')
+# import spacy
+# # nlp = None  # spacy.load('en_core_web_md')
+# nlp = spacy.load('en_core_web_md')
 
 # **********************
 # UTIL FUNCTIONS : END
@@ -42,28 +43,28 @@ def initialise_lookup_table():
                     WHATIS_DIC[s.strip().lower()] = (row[1], row[2])
 
 
-def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
-    """Retrieve top similar key for the query using
-    word vector/embeddings similarity for the word vectors model.
+# def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
+#     """Retrieve top similar key for the query using
+#     word vector/embeddings similarity for the word vectors model.
 
-        Returns: key of the top result if similarity > threshold, else None
-    """
-    query_nlp = nlp(query)
-    keys_nlp = [nlp(k) for k in list(glossary.keys())]
-    similarity_nlp = [(k, query_nlp.similarity(k)) for k in keys_nlp]
-    results = sorted(similarity_nlp, key=lambda x: x[1], reverse=True)
+#         Returns: key of the top result if similarity > threshold, else None
+#     """
+#     query_nlp = nlp(query)
+#     keys_nlp = [nlp(k) for k in list(glossary.keys())]
+#     similarity_nlp = [(k, query_nlp.similarity(k)) for k in keys_nlp]
+#     results = sorted(similarity_nlp, key=lambda x: x[1], reverse=True)
 
-    if verbose > 1:
-        print(results[0:5])
+#     if verbose > 1:
+#         print(results[0:5])
 
-    if results[0][1] > threshold:
-        return results[0][0].text
-    else:
-        return None
+#     if results[0][1] > threshold:
+#         return results[0][0].text
+#     else:
+#         return None
 
 
 def whatis_intent_handler(req, public_url):
-    global nlp
+    # global nlp
 
     returnText = []
     item = req["queryResult"]["parameters"].get("ent_whatis_query", None)
@@ -77,9 +78,9 @@ def whatis_intent_handler(req, public_url):
     # lazy initialisation of WHATIS_DIC from a file.
     # alternatively we can query a DB
     if (not bool(WHATIS_DIC)): initialise_lookup_table()
-    if (nlp is None):
-        if 'heroku' in public_url: nlp = spacy.load('en_core_web_sm')  # quickfix, due to R14 memory error in Heroku (similarity results will NOT be good!)
-        else: nlp = spacy.load('en_core_web_md')
+    # if (nlp is None):
+    #     if 'heroku' in public_url: nlp = spacy.load('en_core_web_sm')  # quickfix, due to R14 memory error in Heroku (similarity results will NOT be good!)
+    #     else: nlp = spacy.load('en_core_web_md')
 
     # Try to get description from WHATIS_DIC based on exact match
     dic_val = WHATIS_DIC.get(query, None)

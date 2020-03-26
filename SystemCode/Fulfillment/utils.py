@@ -5,6 +5,7 @@ import sys
 import argparse
 import unidecode
 import re
+import string
 
 
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
@@ -86,7 +87,13 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
-def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName'):
+def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName',
+                         price_col='Product Price',
+                         info_arr=['Product Price', 'Product Image URL', 'Product URL']):
+
+    # Clean-up Price - convert to decimal
+    prices = df[price_col].str.replace('[S$,]', '', regex=True).astype(float)
+    df[price_col] = prices
 
     # Clean-up Brand - perform unidecode
     brands = df[brand_col].str.strip().str.lower()
@@ -98,18 +105,25 @@ def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName'):
     blacklist = [
         'quietpoint(r) active', 'metal /',
         'quincy jones signature series', 'waterproof walkman neckband',
-        '2nd generation'
+        '2nd generation',
+        '+remote'
     ]
     temp = []
 
     for m in df[model_col]:
         # remove symbols, unidecode
-        m = re.sub(r'[®]', '', unidecode.unidecode(m).strip().lower())
+        m = re.sub(r'[®+]', '', unidecode.unidecode(m).strip().lower())
 
         # manual removal of certain words that we know are 'wrong'
         # probably not the most efficient method to do this, but whatever..
         for black in blacklist:
             m = m.replace(black, "")
+
+        # strip punctuation because preprocessing step will also do likewise
+        m = ''.join([t for t in m if t not in string.punctuation])
+
+        # perform stemming using snowball (this helps to make words singular)
+        # m = sb_stemmer.stem(m)
 
         # join lone letters to string containing digits (k 450 -> k450)
         m = re.sub(r'^([a-zA-Z]){1}\s(\w?\d{1}\w)', r'\1\2', m)
@@ -123,4 +137,18 @@ def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName'):
     unique_brands = df[brand_col].unique()
     unique_models = df[model_col].unique()
 
-    return df, unique_brands, unique_models
+    # Generate brand_model_info_dict
+    brand_model_info_dict = df.groupby([brand_col])[model_col].apply(list).to_dict()
+    # brand_model_info_dict = brand_model_dict.copy()
+    for k, v in brand_model_info_dict.items():
+        # for each brand, have a dict with model as key, and info as values
+        model_info_dict = {}
+        for m in v:
+            # print(k, m)
+            temp = df[(df[brand_col] == k) & (df[model_col] == m)].iloc[0]
+            temp = temp[info_arr].to_dict()
+            model_info_dict[m] = temp
+
+        brand_model_info_dict[k] = model_info_dict
+
+    return df, unique_brands, unique_models, brand_model_info_dict

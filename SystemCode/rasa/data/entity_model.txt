@@ -163,8 +163,8 @@ c750h
 aeon flow closed
 aeon flow
 ether 2
-ether c flow 1.1
-ether flow 1.1
+ether c flow 11
+ether flow 11
 voce
 ah d600
 ah d7100
@@ -178,7 +178,7 @@ iv 4
 vi sonorous6
 viii sonorous8
 x
-billy's edition
+billys edition
 coda
 con amore
 draco
@@ -265,12 +265,12 @@ portapro
 pro4s
 sp540
 ur42i
-g pro x 7.1
-g433 7.1
+g pro x71
+g433 71
 g533
-g633 artemis spectrum 7.1
-g633s 7.1
-g933 artemis spectrum 7.1
+g633 artemis spectrum 71
+g633s 71
+g933 artemis spectrum 71
 g933s gaming
 major ii
 major ii edition
@@ -281,8 +281,8 @@ monitor edition
 monitor
 dynamic mh30
 dynamic mh40
-dyna mw50+
-dyna mw50+ edition
+dyna mw50
+dyna mw50 edition
 dynamic mw60
 dynamic mw65
 kidjamz
@@ -308,7 +308,7 @@ pm 1
 pm2 2
 pm 3
 zik 3
-stance s1+
+stance s1
 tach t1
 bt 330
 bt 460
@@ -317,8 +317,8 @@ fidelio m1
 fidelio x1
 shb4000
 shb7000
-shc1300/10
-shc2000/10
+shc130010
+shc200010
 shd8600ug
 shl3000
 se s3bt
@@ -341,24 +341,24 @@ m4u 2 room feel
 vortice
 true
 s360
-s380+
+s380
 tv
 dj
 stereos
 electra v2
-kraken 7.1 v2
+kraken 71 v2
 kraken forged edition
 kraken pro v2
 kraken edition surround
-mano'war 7.1
-mano'war edition
-mano'war
+manowar 71
+manowar edition
+manowar
 meka
 nari essentia
 nari
 thresher edition
-tiamat 2.2 v2
-tiamat 7.1 v2
+tiamat 22 v2
+tiamat 71 v2
 hd400s
 g4me one
 g4me zero
@@ -369,8 +369,8 @@ hd 205 ii
 hd 215 ii
 hd 219
 hd 219s
-hd 229 /red
-hd 229 /orange
+hd 229 red
+hd 229 orange
 hd 239
 hd 25
 hd 25 1 ii
@@ -403,9 +403,9 @@ pc 330 g4me
 pc 350 g4me
 pc 360 g4me
 px 100 ii
-px 100 iii & 3 , &
+px 100 iii  3
 px 200 ii
-px 200 iii & 3 , &
+px 200 iii  3
 px 30 ii
 px 360
 px 90
@@ -422,7 +422,7 @@ urbanite xl
 srh144
 srh1440
 srh145
-srh145m+
+srh145m
 srh1540
 srh1840
 srh240a
@@ -441,7 +441,7 @@ master
 sol tracks
 tracks hd2
 mdr 100aap
-h.ear mdr 100aap
+hear mdr 100aap
 mdr 100abn
 mdr 10r
 mdr 10rbt
@@ -458,7 +458,7 @@ mdr 1rnc mk2
 mdr 1rnc
 mdr 7506
 mdr cd900st
-mdr h600a h.ear on 2
+mdr h600a hear on 2
 mdr ma100
 mdr ma102tv
 mdr ma300
@@ -514,11 +514,11 @@ wh ch500
 wh ch700n
 ch700n
 wh ch700n anc
-wh h800 h.ear on 2 mini
-wh h800 h.ear on 2
-wh h900n h.ear on 2
-wh h900n h.ear on 2 horizon
-wh h900n h.ear on 2 twilight
+wh h800 hear on 2 mini
+wh h800 hear on 2
+wh h900n hear on 2
+wh h900n hear on 2 horizon
+wh h900n hear on 2 twilight
 wh h910n
 wh xb700
 wh xb900n
@@ -532,7 +532,6 @@ arctis 3
 arctis 3 edition
 arctis 5
 arctis 7
-arctis pro +
 arctis pro
 raw
 siberia 100
@@ -559,8 +558,8 @@ hfi 2400
 hfi 450
 hfi 580
 wesc
-wesc street /blue
-wesc street /red
+wesc street blue
+wesc street red
 hph m82
 be free5
 1m301
@@ -602,10 +601,10 @@ ax30
 ax60
 ax7
 lyra
-airjax +remote
-hidefdrum +remote
-powerjax +remote
-superdarts +remote
+airjax remote
+hidefdrum remote
+powerjax remote
+superdarts remote
 superdarts
 isine 10
 isine 20
@@ -651,7 +650,7 @@ ath sport10
 ath sport3
 ath sport4
 ath sport60bt
-ath sport7tw sonicsport(r)
+ath sport7tw sonicsportr
 af100c
 af120
 af140
@@ -716,7 +715,7 @@ m1
 m100
 m2
 m3
-m4+
+m4
 r3
 s0
 s1
@@ -744,7 +743,6 @@ outlier
 c520s
 tws x100
 tws x200
-tws x200+
 ah w150
 awesome
 dream
@@ -795,7 +793,7 @@ design heaven iv
 design heaven v aging
 design heaven v
 design piano forte ii
-a'leph 1
+aleph 1
 alpha x fe 611
 bellicoso 1
 bullet 6mm
@@ -805,7 +803,7 @@ dreamcatcher 1
 dubliz 1
 dubliz enhanced fe 511
 epsilon
-equilibrium v.2
+equilibrium v2
 eterna pro
 fa 547i
 omega ace
@@ -817,7 +815,7 @@ gryphon
 icon 1
 leggiero 1
 omega infinity fe 381
-silver bullet v.2
+silver bullet v2
 smoky
 spiritoso 1
 tandem
@@ -832,25 +830,25 @@ yuppie
 te 03b
 te 05
 te100
-mg5 fx(tm)
-mg5 hx(tm)
-mg6 fx(tm)
-mg6 hx(tm)
+mg5 fxtm
+mg5 hxtm
+mg6 fxtm
+mg6 hxtm
 gr10e
 gr8e
 ige
 service
-10.0
-10.a
-2.ai
-3.a s
-3.ai s
-4.a
-4.ai s
-5.0
-5.a
-8.0
-8.a
+100
+10a
+2ai
+3a s
+3ai s
+4a
+4ai s
+50
+5a
+80
+8a
 hiso
 tzar 350
 tzar 90
@@ -882,7 +880,7 @@ sport coach
 sport pace
 sport pulse
 sport rox
-sport wireless+
+sport wireless
 steel
 step
 talk 15
@@ -897,9 +895,8 @@ tarah pro
 vista
 x3
 x4
-a four+
+a four
 a one
-a one+
 a three
 a two
 a six
@@ -994,11 +991,11 @@ lcm 3
 lcm 4
 lcm 5
 lcm a1d mkii
-lcm bd4.2
+lcm bd42
 lcm skyline 8mm
 luf 4
 luf ba1
-luf bd4.2
+luf bd42
 ns u1
 tone active hbs 850
 tone infinim hbs 900
@@ -1017,7 +1014,7 @@ m6 pro
 m7 pro
 m7p
 m9b
-mx4 pro 's
+mx4 pro s
 n1
 pinnacle p1
 pinnacle p2
@@ -1116,7 +1113,7 @@ backbeat 3150
 backbeat 3200
 backbeat 350
 backbeat fit
-backbeat go 2 + charging
+backbeat go 2  charging
 backbeat go 2
 backbeat go 3
 backbeat go 410
@@ -1168,19 +1165,19 @@ ultra series
 cx 100
 cx 200 street ii
 cx 300s
-cx 5.00g
-cx5.00g
-cx 5.00i lightning
-cx5.00i
-cx 6.00bt
+cx 500g
+cx500g
+cx 500i lightning
+cx500i
+cx 600bt
 cx 686g
-cx 7.00bt
+cx 700bt
 cx 870
 cx
-cx1.00
-cx2.00g
-cx2.00i
-cx3.00
+cx100
+cx200g
+cx200i
+cx300
 cxc 700
 ie 40 pro
 ie 60
@@ -1212,12 +1209,12 @@ se535
 se535 v bt1
 se535ltd bt1
 se846
-se846 cl+bt1
+se846 clbt1
 indy
 push
 set
 xtfree swirl
-xtfree /red
+xtfree red
 amps air
 jax
 relays
@@ -1225,7 +1222,7 @@ shadow
 shadow rose
 dr ex14vp
 dr ex61ip
-ier h500a h.ear in 2
+ier h500a hear in 2
 mdr as200
 mdr as21j
 mdr as400ex
@@ -1279,7 +1276,7 @@ wi c300
 wi c310
 wi c400
 wi c600n
-wi h700 h.ear in 2
+wi h700 hear in 2
 wi sp600n
 xba 1
 xba 10

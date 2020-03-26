@@ -30,7 +30,6 @@ whatis_list = []
 with open(WHATIS_SOURCE, mode='r', encoding="utf-8-sig") as infile:
     reader = csv.reader(infile)
     for row in reader:
-
         whatis_list.append(row[0].strip().lower() + '\n')
 
         # Expand synonyms / Copy description and source
@@ -57,12 +56,28 @@ brand_model_dict = {}
 BRAND_MODEL_SRC = '../../Fulfillment/data/treoo_data.xls'
 BRAND_DEST = 'entity_brand.txt'
 MODEL_DEST = 'entity_model.txt'
-BRAND_MODEL_DEST = 'brand_model.pickle'
+BRAND_MODEL_INFO_DEST = 'p_brand_model_info.pickle'
+BRAND_MODEL_DEST = 'p_brand_model.pickle'
+MODEL_BRAND_DEST = 'p_model_brand.pickle'
 PRICE_CHATITO_BASE = './chatito/_base_intent_price.chatito'
 
 df = pd.read_excel(BRAND_MODEL_SRC, index_col=0)
-df, unique_brands, unique_models = cleanup_product_list(df, 'Brand', 'ProductModelName')
+df, unique_brands, unique_models, brand_model_info_dict = cleanup_product_list(df, 'Brand', 'ProductModelName')
+
 brand_model_dict = df.groupby(['Brand'])['ProductModelName'].apply(list).to_dict()
+model_brand_dict = df.groupby(['ProductModelName'])['Brand'].apply(list).to_dict()
+
+for k, v in model_brand_dict.items():
+    v = list(dict.fromkeys(v))  # remove duplicates
+    model_brand_dict[k] = v
+
+# dialogflow
+with open(MODEL_DEST.replace('entity_', 'dialogflow_entity_'), 'w+') as f:
+    f.writelines(['\"' + b + '\",\"' + b + '\"\n' for b in unique_models])
+
+with open(BRAND_DEST.replace('entity_', 'dialogflow_entity_'), 'w+') as f:
+    f.writelines(['\"' + b + '\",\"' + b + '\"\n' for b in unique_brands])
+
 
 # have to manually add newlines before writing to file
 unique_brands = [b + '\n' for b in unique_brands]
@@ -79,18 +94,23 @@ with open(MODEL_DEST, 'w+') as f:
     #     print(m)
     #     f.write(m)
 
-print('Writing brand_model_dict to ', BRAND_MODEL_DEST)
+
+print('Writing pickle files for brand, model, info dictionaries')
 with open(BRAND_MODEL_DEST, 'wb+') as f:
     pickle.dump(brand_model_dict, f)
+with open(MODEL_BRAND_DEST, 'wb+') as f:
+    pickle.dump(model_brand_dict, f)
+with open(BRAND_MODEL_INFO_DEST, 'wb+') as f:
+    pickle.dump(brand_model_info_dict, f)
 
 print('Appending entities to chatito file for intent_price')
 price_chatito = PRICE_CHATITO_BASE.replace('_base_', '')
 copyfile(PRICE_CHATITO_BASE, price_chatito)
 with open(price_chatito, 'a') as f:
     f.write('\n@[brand]\n')
-    f.writelines([' '*4 + i for i in unique_brands])
+    f.writelines([' ' * 4 + i for i in unique_brands])
     f.write('\n@[model]\n')
-    f.writelines([' '*4 + i for i in unique_models])
+    f.writelines([' ' * 4 + i for i in unique_models])
 print()
 
 # if visualise:

@@ -5,12 +5,20 @@ import unidecode
 import requests
 from requests.exceptions import HTTPError
 import nltk
+import spacy
+
 sb_stemmer = nltk.stem.snowball.SnowballStemmer("english", ignore_stopwords=True)
+nlp = spacy.load('en_core_web_md')
+# if 'heroku' in public_url: nlp = spacy.load('en_core_web_sm')  # quickfix, due to R14 memory error in Heroku (similarity results will NOT be good!)
+# else: nlp = spacy.load('en_core_web_md')
+
+debug = True
 
 # Lookup table to convert RASA entity to DialogFlow entity
 rasa_to_dialogFlow_entity = {
     "term": "ent_whatis_query",
-    "model": "ent_price_query"
+    "model": "ent_model",
+    "brand": "ent_brand"
 }
 
 # Lookup table to convert RASA intents to DialogFlow intents
@@ -62,7 +70,7 @@ def perform_intent_entity_recog_with_rasa(queryText, rasa_base_url):
     unaccentedText = unidecode.unidecode(u'' + queryText)
 
     # remove singlish stopwords at end of sentence
-    queryText_no_singlish = re.sub(singlish_list, '', unaccentedText.lower().trim())
+    queryText_no_singlish = re.sub(singlish_list, '', unaccentedText.lower().strip())
 
     # strip punctuation, convert to lower before passing to RASA-NLU server
     payload = ''.join([t for t in queryText_no_singlish if t not in string.punctuation]).lower()
@@ -89,5 +97,28 @@ def perform_intent_entity_recog_with_rasa(queryText, rasa_base_url):
             "entities": dialogflow_entities
         }
 
+        if debug:
+            print(rasa_intent_name, rasa_intent_confidence)
+            print(rasa_entities)
+
+    else:
+        return None
+
+def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
+    """Retrieve top similar key for the query using
+    word vector/embeddings similarity for the word vectors model.
+
+        Returns: key of the top result if similarity > threshold, else None
+    """
+    query_nlp = nlp(query)
+    keys_nlp = [nlp(k) for k in list(glossary.keys())]
+    similarity_nlp = [(k, query_nlp.similarity(k)) for k in keys_nlp]
+    results = sorted(similarity_nlp, key=lambda x: x[1], reverse=True)
+
+    if verbose > 1:
+        print(results[0:5])
+
+    if results[0][1] > threshold:
+        return results[0][0].text
     else:
         return None
