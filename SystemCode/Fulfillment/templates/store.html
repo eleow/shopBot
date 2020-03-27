@@ -1,0 +1,22 @@
+{% extends 'store_base.html' %}
+
+{% block extrascripts %}
+<script type="text/javascript">
+    /* NOTE : Use web server to view HTML files as real-time update will not work if you directly open the HTML file in the browser. */
+    (function(d, m){
+      var kommunicateSettings = {
+          "appId":"2413e7890ebf7137ca82f1e025355a796",
+          "popupWidget":true,
+          "automaticChatOpenOnNavigation":true,
+          "onInit": function() {
+            var chatContext = {"kommunicate":"1"}  // for dialogFlow webhook to identify source as kommunicate
+            Kommunicate.updateChatContext(chatContext);
+          }
+      };
+      var s = document.createElement("script"); s.type = "text/javascript"; s.async = true;
+      s.src = "https://widget.kommunicate.io/v2/kommunicate.app";
+      var h = document.getElementsByTagName("head")[0]; h.appendChild(s);
+      window.kommunicate = m; m._globals = kommunicateSettings;
+    })(document, window.kommunicate || {});
+</script>
+{% endblock %}

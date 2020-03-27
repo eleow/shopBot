@@ -20,7 +20,6 @@ from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
 from intent_price import price_intent_handler
 from richMessageHelper import displayWelcome
-from rasa_helper import perform_intent_entity_recog_with_rasa
 from utils import crossdomain, str2bool  # , get_memory_size_locals
 from colorama import Fore, Style
 # import flask_profiler
@@ -78,6 +77,9 @@ else:
         print()
     #
     if USE_RASA:
+        # Only load rasa_helper if rasa is needed
+        from rasa_helper import perform_intent_entity_recog_with_rasa
+
         RASA_URL = "http://localhost:5015"
         print(" RASA will be used for Intent classification and entity detection")
         print(Fore.RED + " RASA server should be started manually and point to localhost:5015")
@@ -202,7 +204,7 @@ def privacy():
 
 @app.route('/shopbot', methods=['POST', 'GET'])
 def home():
-    return render_template('shopbot.html', img="/static/logo.png")
+    return render_template('store.html', img="/static/logo.png")
 
 
 # flask_profiler.init_app(app)
