@@ -19,7 +19,7 @@ from flask import render_template
 from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
 from intent_price import price_intent_handler
-from richMessageHelper import displayWelcome_slack, getUserName
+from richMessageHelper import displayWelcome
 from rasa_helper import perform_intent_entity_recog_with_rasa
 from utils import crossdomain, str2bool  # , get_memory_size_locals
 from colorama import Fore, Style
@@ -123,25 +123,33 @@ def webhook():
         req = request.get_json(silent=True, force=True, cache=False)
         intent_name = req["queryResult"]["intent"]["displayName"].lower()  # get intent in lower characters
         action = req["queryResult"].get("action", None)
-        print(intent_name)
+        # print(intent_name)
+
+        # check for kommunicate web client
+        intentRequest = req['originalDetectIntentRequest']
+
+        platform = ""
+        if (intentRequest.get('payload', None) is not None and intentRequest['payload'].get('kommunicate', None) is not None):
+            platform = "kommunicate"
 
         # Intent for query of terms
         if (intent_name == "intent_whatis_query"):
-            return whatis_intent_handler(req, PUBLIC_URL)
+            return whatis_intent_handler(req, PUBLIC_URL, platform)
         elif (intent_name == "intent_price_query"):
-            return price_intent_handler(req, PUBLIC_URL)
+            return price_intent_handler(req, PUBLIC_URL, platform)
 
         elif action in ["WELCOME"] or "default welcome intent" in intent_name:
 
-            # Try to get first name of user from platform's API
-            intentRequest = req['originalDetectIntentRequest']
-            first_name = getUserName(intentRequest)
+            # # Try to get first name of user from platform's API
+            # intentRequest = req['originalDetectIntentRequest']
+            # first_name = getUserName(intentRequest)
+            first_name = None
 
             # wasRedirected = (req["queryResult"].get("outputContexts") is not None and any(
             #     "welcome" in d["name"] for d in req["queryResult"].get("outputContexts")))
-            num_fail = req["queryResult"]["outputContexts"][0]['parameters'].get("num_fail", None)
+            num_fail = req["queryResult"]["outputContexts"][0].get('parameters', {}).get("num_fail", None)
             wasRedirected = num_fail is not None and num_fail > 0
-            print('num failed', num_fail)
+            # print('num failed', num_fail)
 
             dontUnderstand = [
                 "I don't really understand that. Could you say that again?",
@@ -151,8 +159,9 @@ def webhook():
             returnDontUnderstand = random.choice(dontUnderstand)
 
             additional_header = None if not wasRedirected else returnDontUnderstand
-            return make_response(jsonify(displayWelcome_slack(PUBLIC_URL,
-                additional_header=additional_header, first_name=first_name)))
+            return make_response(jsonify(displayWelcome(PUBLIC_URL, additional_header=additional_header, first_name=first_name, platform=platform)))
+            # return make_response(jsonify(displayWelcome_slack(PUBLIC_URL,
+            #     additional_header=additional_header, first_name=first_name)))
 
         else:
 
@@ -189,6 +198,11 @@ def webhook():
 @app.route('/privacypolicy', methods=['POST', 'GET'])
 def privacy():
     return render_template('privacypolicy.html', img="/static/logo.png")
+
+
+@app.route('/shopbot', methods=['POST', 'GET'])
+def home():
+    return render_template('shopbot.html', img="/static/logo.png")
 
 
 # flask_profiler.init_app(app)

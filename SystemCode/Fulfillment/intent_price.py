@@ -6,6 +6,7 @@ import os
 import pickle
 from flask import make_response, jsonify
 from rasa_helper import get_value_based_on_similar_key
+from richMessageHelper import display_response
 
 file_path = os.path.dirname(__file__)
 brand_model_src = os.path.join(file_path, 'data/p_brand_model_info.pickle')
@@ -16,14 +17,17 @@ with open(model_brand_src, 'rb+') as f:
     model_brand_dict = pickle.load(f)
 
 
-def price_intent_handler(req, public_url):
+def price_intent_handler(req, public_url, platform=""):
 
-    msg = ['This is price intent with query:']
+    msg = ""
+    simple_msg = ""
+    basic_card = None
+
     model = req["queryResult"]["parameters"].get("ent_model", "")
     brand = req["queryResult"]["parameters"].get("ent_brand", "")
 
     if model == "":
-        msg = "Ok let's get price. I will need the model name!"
+        msg = "Ok let's get the price for your desired headphones. I will need the model name!"
     else:
         # check if there is an exact match for model
         if model not in model_brand_dict.keys():
@@ -52,15 +56,20 @@ def price_intent_handler(req, public_url):
         # finally, let's get details for the given brand and model
         info = brand_model_info_dict.get(brand).get(model)
         msg = f"You can get {brand.upper()} {model.upper()} at S${info['Product Price']:,.2f}!"
-        msg = msg + f"\nGet it now at {info['Product URL']}"
-        print(msg)
+        simple_msg = msg + f"\n🎁 Get it now at {info['Product URL']}"
+        # print(simple_msg)
 
-    return make_response(jsonify({
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": [msg]
+        # format into a card for display as a rich message if available
+        basic_card = {
+            "title": "Available at Treoo",
+            "image": info["Product Image URL"],
+            "accessibilityText": f"{brand.upper()} {model.upper()}",
+            "buttons": [
+                {
+                    "title": "🎁 Get it now",
+                    "url": info["Product URL"]
                 }
-            }
-        ]
-    }))
+            ]
+        }
+
+    return make_response(jsonify(display_response(public_url, msg, simple_msg, basic_card=basic_card, platform=platform)))

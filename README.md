@@ -65,7 +65,6 @@ When the user has a query on a specific term, we will try the following in order
 
 * Exact word or synonym matching of query with terms in database,
 * Similarity matching of query with terms in database, based on word vectors using [spacy model 'en_core_web_md'](https://spacy.io/models/en#en_core_web_md) (English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl)
-* Search and display search results from the web, using Google custom search API
 
 The user will also be able to ask follow-up questions based on the context. This would be done by the following:
 

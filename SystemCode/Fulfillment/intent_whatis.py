@@ -9,6 +9,7 @@ from os import chdir
 from os.path import dirname, realpath
 from flask import make_response, jsonify
 from rasa_helper import get_value_based_on_similar_key
+from richMessageHelper import display_response
 
 # import spacy
 # # nlp = None  # spacy.load('en_core_web_md')
@@ -43,27 +44,7 @@ def initialise_lookup_table():
                     WHATIS_DIC[s.strip().lower()] = (row[1], row[2])
 
 
-# def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
-#     """Retrieve top similar key for the query using
-#     word vector/embeddings similarity for the word vectors model.
-
-#         Returns: key of the top result if similarity > threshold, else None
-#     """
-#     query_nlp = nlp(query)
-#     keys_nlp = [nlp(k) for k in list(glossary.keys())]
-#     similarity_nlp = [(k, query_nlp.similarity(k)) for k in keys_nlp]
-#     results = sorted(similarity_nlp, key=lambda x: x[1], reverse=True)
-
-#     if verbose > 1:
-#         print(results[0:5])
-
-#     if results[0][1] > threshold:
-#         return results[0][0].text
-#     else:
-#         return None
-
-
-def whatis_intent_handler(req, public_url):
+def whatis_intent_handler(req, public_url, platform=""):
     # global nlp
 
     returnText = []
@@ -111,15 +92,15 @@ def whatis_intent_handler(req, public_url):
             returnText = random.choice(dunnoArray)
     else:
         description = dic_val[0]
-        returnText = "*" + item.strip().capitalize() + "*:"
+        returnText = "**" + item.strip().capitalize() + "**:"
         returnText = returnText + "\n" + description
 
-    return make_response(jsonify({
-        "fulfillmentMessages": [
-            {
-                "text": {
-                    "text": [returnText]
-                }
-            }
-        ]
-    }))
+        # # format into a card for display as a rich message if available
+        # msg = "Here's what I've got.."
+        # basic_card = {
+        #     "title": item.strip().capitalize(),
+        #     "formattedText": description
+        # }
+
+    return make_response(jsonify(display_response(public_url,
+        sim_msg=returnText, msg=returnText, platform=platform)))
