@@ -1,0 +1,274 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Mar 26 08:54:05 2020
+
+@author: shashanknigam
+"""
+
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Feb  5 00:04:41 2020
+
+@author: shashanknigam
+
+web parser for amazon: 
+
+Things to be extracted: 1. Title of the product    span id = "productTitle"
+    2. Number of rating : span id = acrCustomerReviewText
+    3. Average rating given:span class a-icon-alt
+    4. Description: div id = featurebullets_feature_div.text
+    5. Product description: heading description format h3:a-spacing-mini :- neighboring text p class="a-spacing-base"
+    6. Other features if any h4 class="a-spacing-mini" p : afterwards.  
+    -- later consideration 6.5: Comparison id=HLCXComparisonTable 
+         item heading: tr class="comparison_table_image_row"
+                img.src :Name 
+                class="a-row a-spacing-top-small"
+                
+                
+    7. Product information div id = "productDetails_detailBullets_sections1"
+    
+        1. Product dimensions th  label td value
+        2. Item weight
+        3. Shipping weight
+        4. Manufacturer
+        5. ASIN
+        6. Model Number
+        7. Customer reviews
+        8. Best sellers rank
+        9. Warantee if any
+    8. Question answers:  div =class="a-section a-spacing-none askBtfTopQuestionsContainer" ;  span class = "a-text-bold" next sibling id  (class="a-declarative")the child question next span class=  askLongText   class="a-color-tertiary a-nowrap" for r the next teritory wrap
+    9. Customer reviews: all if possible : - class="cr-lighthouse-term " (terms)
+                                        1. data-hook="review-star-rating" user  rating 
+                                        2. data-hook="review-title" 
+                                        3. class="a-row a-spacing-small review-data" detailed review
+                                        4. data-hook="see-all-reviews-link-foot"
+                                        5. class="a-last"    
+    10. Price: span id = priceblock_ourprice
+    
+
+Hanumanji 
+a-section celwidget
+cr-dp-lighthut
+["a-fixed-left-grid","a-spacing-base"]
+
+['a-fixed-left-grid-col', 'a-col-right']
+
+
+reviews-medley-footer
+
+
+id="cr-dp-desktop-lighthut"
+["a-fixed-right-grid-col","cm_cr_grid_center_right"]
+
+"""
+
+"""
+Getting each details out:
+"""
+
+from selenium import webdriver
+from bs4 import BeautifulSoup as soup 
+import bs4
+import sys
+import traceback
+import numpy as np
+import pandas as pd
+
+
+ASIN=""
+failed = []
+#QA= {"Question":[],"Answers":[],"ASIN":[]}
+#customerReviews = {"ASIN":[],"UserRating":[],"Title":[],"detailedReview":[]}
+
+def readWebpage(url,driver_not_in_use=-1):
+    try:
+        global pages
+        global driver
+        driver = np.random.randint(0,2)
+        while driver==driver_not_in_use:
+            driver = np.random.randint(0,2)
+        if driver ==0:
+            browser = webdriver.Safari() 
+        elif driver==1:
+            browser = webdriver.Chrome('/Users/shashanknigam/Downloads/Beautiful Soup/chromedriver')
+        #elif driver==2:
+        #    browser=webdriver.Firefox('/Users/shashanknigam/Downloads/Beautiful Soup/')
+        browser.get(url)
+        contents = browser.page_source
+        #time.sleep(1)
+        browser.close()
+        del browser
+        return contents
+    except:
+        try:
+            driver = np.random.randint(0,2)
+            if driver ==0:
+                browser = webdriver.Safari() 
+            elif driver==1:
+                browser = webdriver.Chrome('/Users/shashanknigam/Downloads/Beautiful Soup/chromedriver')
+            #elif driver==2:
+            #    browser=webdriver.Firefox('/Users/shashanknigam/Downloads/Beautiful Soup/')
+            browser.get(url)
+            browser.close()
+            del browser
+            return contents
+        except:
+            print(sys.exc_info())
+            print(traceback.format_exc())
+            
+            return None
+    
+
+    
+    
+    #time.sleep(10)
+    
+
+def getSoup(url):
+    global driver
+    w = readWebpage(url)
+    if w is not None:
+        s = soup(w,'html.parser')
+        while "Robot Check" in s.text:
+            w = readWebpage(url,driver)
+            s = soup(w,'html.parser')
+    else: 
+        s=None
+    return s
+
+def get(s,tag,attr=None):    
+    if attr is  None:
+        return s.find_all(tag)
+    else:
+        #print("searching for attribute:"+attr)
+        tags = s.find_all(tag)
+        return [t for t in tags if attr in t.attrs.keys()]
+
+def getNextSibling(tag):
+    while True:
+        if tag.next_sibling == '' or tag.next_sibling is None:
+            return None
+        elif tag.next_sibling in ['\n','\xa0'] or tag.next_sibling.name=='br':
+            tag = tag.next_sibling 
+        else:          
+            return tag.next_sibling
+ 
+def getNextSiblingText(tag):
+    while True:
+        #print(tag)
+        if tag.next_sibling == '' or tag.next_sibling is None:
+            return ''
+        elif tag.next_sibling in ['\n','\xa0'] or tag.next_sibling.name=='br' or tag.next_sibling==' ':
+            tag = tag.next_sibling 
+        else:
+            if isinstance(tag.next_sibling,bs4.element.Tag):
+                return tag.next_sibling.text
+            else:
+                return str(tag.next_sibling)
+import re
+def get_ps(soup, id_str, class_str):
+    s = None
+    p = soup.find(id=id_str) #
+    if p is not None:
+        p = float(p.get_text().replace("S$",""))
+        s = soup.select(class_str)[0].get_text().strip().lower()
+        print(s)
+        if 'free shipping' in s: 
+            s = 0
+        else:
+            try:
+                
+                s = float(re.sub('[+S$a-z]', '', s.strip()))
+            except:
+                s = 0
+        
+    return p, s
+    
+
+
+def parseAmazon(url):
+    #global pages
+    #global product_dict,productDetails,Description,productQA,productInformation,ASIN,productReview,failed
+    s=getSoup(url)
+    
+    #print(s.text)
+    try:
+        if "We're sorry. The Web address you've entered is not a functioning page on our site." in s.text:
+            return None
+        div = get(s,'div','id')
+        for i in div:
+            #print(i['id'])
+            if i['id']=="delivery-message":
+                if "This item does not ship to Singapore" in i.text:
+                    return None
+        
+        if s.find(id="unqualifiedBuyBox_feature_div") != None:
+            print("No sellers!?")
+            # Only 1 seller? Or only New item
+        price, shipping = get_ps(s, "price_inside_buybox", "div#shippingMessageInsideBuyBox_feature_div div.a-section div.a-row")
+        if price is not None:
+            print(f"Buy: ${price}, with shipping ${shipping}, for a total of ${price + shipping}")
+                        #return price, shipping, None, None
+                # Might have both New and Used item??
+        new_price, new_shipping = get_ps(s, "newBuyBoxPrice", "div#shippingMessageInsideBuyBox_feature_div div.a-section div.a-row")
+        if new_price is not None:
+            print(f"Buy new: ${new_price}, with shipping ${new_shipping}, for a total of")
+        else: 
+            new_price, new_shipping=(price,shipping)
+        used_price, used_shipping = get_ps(s, "usedPrice", "div#usedBuyBoxShippingMessage_feature_div div.a-section div.a-row")
+        if used_price is not None:
+            print(f"Buy used: ${used_price}, with shipping ${used_shipping}, for a total of ")    
+        if new_price is None and used_price is None:
+            print("No sellers!?")
+        print(new_price, new_shipping, used_price, used_shipping)
+        return (new_price, new_shipping, used_price, used_shipping)
+    except:
+        print(url)
+        print(sys.exc_info())
+        print(traceback.format_exc())
+        print("Error")
+        return None
+
+df = pd.read_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/AmazonDataSet/ProductDictionary.xlsx',index_col=0)
+is_valid=[]
+new_price=[]
+new_shipping=[]
+used_price=[]
+used_shipping=[]
+
+for i in df['ASIN']:
+    if not pd.isnull(i):
+        url = 'https://www.amazon.sg/dp/'+i
+        
+        d = parseAmazon(url)
+        if d is not None:
+            is_valid.append('Y')
+            new_price.append(d[0])
+            new_shipping.append(d[1])
+            used_price.append(d[2])
+            used_shipping.append(d[3])
+        else:
+            print(url,'N')
+            is_valid.append('N')
+            new_price.append(0)
+            new_shipping.append(0)
+            used_price.append(0)
+            used_shipping.append(0)
+    else:
+        is_valid.append('N')
+        new_price.append(0)
+        new_shipping.append(0)
+        used_price.append(0)
+        used_shipping.append(0)
+
+        
+df['isValid']=is_valid
+df['new_price']=new_price
+df['new_shipping']=new_shipping
+df['used_price']=used_price
+df['used_shipping']=used_shipping
+
+df.to_excel('/Users/shashanknigam/downloads/nlp_project/shopBot/webscraping/AmazonDataSet/ProductDictionary.xlsx')
+        
