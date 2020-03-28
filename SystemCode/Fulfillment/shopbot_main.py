@@ -32,6 +32,7 @@ parser.add_argument("-r", "--rasa", type=str2bool, default=True,
     help='Bool indicating whether to enable RASA NLU server. If running locally, ensure that you launch RASA server on your own')
 parser.add_argument("-t", "--threshold", type=float, default=0.7, help='RASA threshold to pass RASA intent classification. Range 0-1')
 parser.add_argument("-d", "--debug", type=str2bool, default=False, help='Flask debug mode')
+parser.add_argument("-k", "--kommunicate", default="2413e7890ebf7137ca82f1e025355a796", help='Kommunicate ID for chatbot')
 # args = vars(parser.parse_args())
 args, unknown = parser.parse_known_args()
 args = vars(args)
@@ -39,6 +40,8 @@ RUN_NGROK = args['ngrok']
 RUN_ON_SERVER = args['server']
 USE_RASA = args['rasa']
 RASA_CONFIDENCE_THRESHOLD = args['threshold']
+KOMM_ID = args['kommunicate']
+
 DEBUG = args['debug']
 
 PUBLIC_URL = ""
@@ -68,16 +71,20 @@ else:
         else:
             PUBLIC_URL = tunnels[0].public_url
 
+        PUBLIC_URL = PUBLIC_URL.replace('http', 'https')
         print(" Flask is executed locally and ngrok will be started automatically")
+        print(Fore.RED + " Remember to update DialogFlow fulfillment webhook with the PUBLIC_URL" + Style.RESET_ALL)
     else:
         print(Fore.RED + " Flask is executed locally")
-        print(" Run ngrok manually to get a public URL for DialogFlow fulfillment webhook and enter below:"
+        print(" Run ngrok manually to get a public URL and ensure you update DialogFlow fulfillment webhook"
               + Style.RESET_ALL)
-        PUBLIC_URL = input().strip()
+        # PUBLIC_URL = input().strip()
+        PUBLIC_URL = "http://localhost:5000"
         print()
     #
     if USE_RASA:
         # Only load rasa_helper if rasa is needed
+        print("Loading rasa library...")
         from rasa_helper import perform_intent_entity_recog_with_rasa
 
         RASA_URL = "http://localhost:5015"
@@ -117,9 +124,12 @@ app = Flask(__name__)
 @crossdomain(origin='*')
 def webhook():
     if (request.method == 'GET'):
-        message1 = "Flask Webhook is running @ " + PUBLIC_URL
-        message2 = "RASA server is hosted @ " + RASA_URL
-        return render_template('index.html', message1=message1, message2=message2, img="/static/logo.png")
+        message1 = "Flask Webhook: " + PUBLIC_URL
+        message2 = "RASA server: " + RASA_URL
+        message3 = "Kommunicate ID: " + KOMM_ID
+        # return render_template('index.html', message1=message1, message2=message2, img="/static/logo.png")
+        return render_template('store.html', kommunicate_id=KOMM_ID,
+            message1=message1, message2=message2, message3=message3)
 
     elif (request.method == 'POST'):
         req = request.get_json(silent=True, force=True, cache=False)
@@ -202,9 +212,13 @@ def privacy():
     return render_template('privacypolicy.html', img="/static/logo.png")
 
 
-@app.route('/shopbot', methods=['POST', 'GET'])
+@app.route('/debug', methods=['POST', 'GET'])
 def home():
-    return render_template('store.html', img="/static/logo.png")
+    print(KOMM_ID)
+    message1 = "Flask Webhook: " + PUBLIC_URL
+    message2 = "RASA server: " + RASA_URL
+    message3 = "Kommunicate ID: " + KOMM_ID
+    return render_template('index.html', message1=message1, message2=message2, message3=message3, img="/static/logo.png")
 
 
 # flask_profiler.init_app(app)

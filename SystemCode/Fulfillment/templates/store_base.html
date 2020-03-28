@@ -7,7 +7,12 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <link rel="shortcut icon" type="image/x-icon" href="/static/img/favicon.ico">
+        <meta property="og:title" content="ShopBot" />
+        <meta property="og:url" content="https://shopbotsg.herokuapp.com/" />
+        <meta property="og:description" content="AI-powered shop assistant to help you get your perfect headphones!">
+        <meta property="og:image" content="/static/images/logo.png">
+        <meta property="og:type" content="website" />
 
 		<!-- CSS here -->
             <link rel="stylesheet" href="/static/css/bootstrap.min.css">
@@ -31,7 +36,7 @@
             <div class="preloader-inner position-relative">
                 <div class="preloader-circle"></div>
                 <div class="preloader-img pere-text">
-                    <img src="/static/img/logo/logo.png" alt="">
+                    <img src="/static/img/logo.png" alt="">
                 </div>
             </div>
         </div>
@@ -67,7 +72,7 @@
                             <!-- Logo -->
                             <div class="col-xl-1 col-lg-1 col-md-1 col-sm-3">
                                 <div class="logo">
-                                  <a href="#"><img src="/static/img/logo/logo.png" alt=""></a>
+                                  <a class="chat_now" href="#"><img src="/static/img/logo.png" alt=""></a>
                                 </div>
                             </div>
                             <div class="col-xl-6 col-lg-8 col-md-7 col-sm-5">
@@ -146,7 +151,7 @@
                                     <p data-animation="fadeInRight" data-delay=".8s">Limited time only!</p>
                                     <!-- Hero-btn -->
                                     <div class="hero__btn" data-animation="fadeInRight" data-delay="1s">
-                                        <a id="chat_now" class="btn hero-btn">Chat with AudioPhil now!</a>
+                                        <a id="chat_now" class="btn hero-btn chat_now">Chat with AudioPhil now!</a>
                                     </div>
                                 </div>
                             </div>
@@ -199,12 +204,14 @@
                       <div class="single-footer-caption mb-50">
                         <div class="single-footer-caption mb-30">
                              <!-- logo -->
-                            <div class="footer-logo">
-                                <a href="#"><img src="/static/img/logo/logo2_footer.png" alt=""></a>
-                            </div>
+                            <h1>Headphones Store</h1>
                             <div class="footer-social">
                                 <div class="">
-                                    <p>Fake shop landing page to showcase how the chatbot might be integrated into a typical e-commerce website</p>
+                                    <h4>{{message1}}</h4>
+                                    <h4>{{message2}}</h4>
+                                    <h4>{{message3}}</h4>
+
+                                    <p>This is a fake shop landing page to showcase how the chatbot might be integrated into a typical e-commerce website</p>
                                     <p>Photos from Pexels</p>
 
                                     <p>Visit our Github repository for source code!</p>
