@@ -7,7 +7,6 @@ import unidecode
 import re
 import string
 
-
 def crossdomain(origin=None, methods=None, headers=None, max_age=21600,
                 attach_to_all=True, automatic_options=True):
     """Decorator function that allows crossdomain requests.
@@ -87,13 +86,18 @@ def str2bool(v):
         raise argparse.ArgumentTypeError('Boolean value expected.')
 
 
-def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName',
+def cleanup_product_list(d, brand_col='Brand', model_col='ProductModelName',
                          price_col='Product Price',
                          info_arr=['Product Price', 'Product Image URL', 'Product URL']):
 
+    # Filter away null rows for brand, model or price
+    # make a copy of the slice () otherwise http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
+    df = d[d[brand_col].notnull() & d[model_col].notnull() & d[price_col].notnull()].copy()
+
     # Clean-up Price - convert to decimal
-    prices = df[price_col].str.replace('[S$,]', '', regex=True).astype(float)
-    df[price_col] = prices
+    if df.dtypes[price_col] != float:
+        prices = df[price_col].str.replace('[S$,]', '', regex=True).astype(float)
+        df[price_col] = prices
 
     # Clean-up Brand - perform unidecode
     brands = df[brand_col].str.strip().str.lower()
@@ -110,9 +114,10 @@ def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName',
     ]
     temp = []
 
+    # Clean-up Model
     for m in df[model_col]:
         # remove symbols, unidecode
-        m = re.sub(r'[®+]', '', unidecode.unidecode(m).strip().lower())
+        m = re.sub(r'[®+]', '', unidecode.unidecode(str(m)).strip().lower())
 
         # manual removal of certain words that we know are 'wrong'
         # probably not the most efficient method to do this, but whatever..
@@ -145,10 +150,37 @@ def cleanup_product_list(df, brand_col='Brand', model_col='ProductModelName',
         model_info_dict = {}
         for m in v:
             # print(k, m)
-            temp = df[(df[brand_col] == k) & (df[model_col] == m)].iloc[0]
+            temp = df[(df[brand_col] == k) & (df[model_col] == m)].iloc[0]  # just get first match
             temp = temp[info_arr].to_dict()
             model_info_dict[m] = temp
 
         brand_model_info_dict[k] = model_info_dict
 
     return df, unique_brands, unique_models, brand_model_info_dict
+
+
+def generate_brand_model_data(brand_model_src, brand_model_info_dest,
+    brand_model_dest, model_brand_dest, brand_col_name, model_col_name, price_col_name, info_arr):
+
+    import pickle
+    import pandas as pd
+
+    df = pd.read_excel(brand_model_src, index_col=0)
+    df, unique_brands, unique_models, brand_model_info_dict = cleanup_product_list(df, brand_col_name, model_col_name, price_col_name, info_arr)
+
+    brand_model_dict = df.groupby([brand_col_name])[model_col_name].apply(list).to_dict()
+    model_brand_dict = df.groupby([model_col_name])[brand_col_name].apply(list).to_dict()
+
+    for k, v in model_brand_dict.items():
+        v = list(dict.fromkeys(v))  # remove duplicates
+        model_brand_dict[k] = v
+
+    print('Writing pickle files for brand, model, info dictionaries')
+    with open(brand_model_dest, 'wb+') as f:
+        pickle.dump(brand_model_dict, f)
+    with open(model_brand_dest, 'wb+') as f:
+        pickle.dump(model_brand_dict, f)
+    with open(brand_model_info_dest, 'wb+') as f:
+        pickle.dump(brand_model_info_dict, f)
+
+    return unique_brands, unique_models, brand_model_dict, model_brand_dict, brand_model_info_dict

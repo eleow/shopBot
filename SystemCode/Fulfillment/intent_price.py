@@ -61,8 +61,8 @@ def price_intent_handler(req, public_url, platform=""):
 
         # format into a card for display as a rich message if available
         basic_card = {
-            "title": "Available at Treoo",
-            "image": info["Product Image URL"],
+            "title": "Available at Treoo" if 'treoo' in info['Product URL'] else "Available at Amazon SG",
+            "image": info.get("Product Image URL", ""),  # may or may not have an image
             "accessibilityText": f"{brand.upper()} {model.upper()}",
             "buttons": [
                 {
