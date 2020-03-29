@@ -73,7 +73,7 @@ BRAND_MODEL_DEST = 'p_amazon_brand_model.pickle'
 MODEL_BRAND_DEST = 'p_amazon_model_brand.pickle'
 
 amazon_brands, amazon_models, amazon_brand_model_dict, amazon_model_brand_dict, amazon_brand_model_info_dict = generate_brand_model_data(BRAND_MODEL_SRC, BRAND_MODEL_INFO_DEST,
-    BRAND_MODEL_DEST, MODEL_BRAND_DEST, "Organziation", "ProductModelName", "new_price", ["new_price", "url"])
+    BRAND_MODEL_DEST, MODEL_BRAND_DEST, "Organziation", "ProductModelName", "new_price", ["new_price", "url", "Image"])
 
 # %%
 # Combine brands and models from Treoo and Amazon
@@ -94,8 +94,9 @@ t = treoo_brand_model_info_dict
 for k in a.keys():
     for m in a[k].keys():
         a[k][m]["Product Price"] = a[k][m].pop("new_price")
-        a[k][m]["Product URL"] = "http://" + a[k][m].pop("url")  # spreadsheet did not include http:// prefix!
-        # a[k][m]["Product Image URL"] = a[k][m].pop("image")
+        # a[k][m]["Product URL"] = "http://" + a[k][m].pop("url")  # spreadsheet did not include http:// prefix!
+        a[k][m]["Product URL"] = a[k][m].pop("url")  # spreadsheet did not include http:// prefix!
+        a[k][m]["Product Image URL"] = a[k][m].pop("Image")
 
 # %%
 # Combine a & t into 1 brand_model_info_dict
