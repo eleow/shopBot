@@ -15,7 +15,7 @@
   <h3 align="center">AudioPhil, the shopbot for headphones</h3>
 
   <p align="center">
-    Quickly get product recommendations for headphones by just typing into a chat interface
+    Quickly get product recommendations and product information for headphones by just typing into a chat interface
     <br />
     <br />
     <br />
@@ -43,9 +43,7 @@ This was the group project by <a href="https://github.com/eleow">Edmund</a>, <a 
 git clone https://github.com/eleow/shopBot.git
 ```
 
-* Install prerequisites in "requirements.txt"
-* Deploy to Heroku or other public URL, and change variable PUBLIC_URL
-* Connect DialogFlow fulfillment to your PUBLIC_URL
+* Refer to [User Guide](https://github.com/eleow/shopBot/blob/master/docs/User%20Guide.docx)
 
 ## Usage
 

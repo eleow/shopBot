@@ -11,7 +11,11 @@
     <button class="ping" type="button">Wake RASA server on Heroku up</button>
     <h2 id="status"></h2>
 
-    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/js/main.js"></script>
+    <script type="text/javascript" src="/static/js/jquery-1.12.1.min.js"></script>
 
+{% endblock %}
+
+{% block extrascripts %}
+<script src="/static/js/plugins.js"></script>
+{% include "_kommunicate.html" %}
 {% endblock %}

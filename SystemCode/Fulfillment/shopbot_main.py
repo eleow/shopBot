@@ -218,7 +218,7 @@ def home():
     message1 = "Flask Webhook: " + PUBLIC_URL
     message2 = "RASA server: " + RASA_URL
     message3 = "Kommunicate ID: " + KOMM_ID
-    return render_template('index.html', message1=message1, message2=message2, message3=message3, img="/static/logo.png")
+    return render_template('index.html', kommunicate_id=KOMM_ID, message1=message1, message2=message2, message3=message3, img="/static/logo.png")
 
 
 # flask_profiler.init_app(app)
