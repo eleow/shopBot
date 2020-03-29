@@ -63,7 +63,7 @@ BRAND_MODEL_DEST = 'p_treoo_brand_model.pickle'
 MODEL_BRAND_DEST = 'p_treoo_model_brand.pickle'
 
 treoo_brands, treoo_models, treoo_brand_model_dict, treoo_model_brand_dict, treoo_brand_model_info_dict = generate_brand_model_data(BRAND_MODEL_SRC, BRAND_MODEL_INFO_DEST,
-    BRAND_MODEL_DEST, MODEL_BRAND_DEST, "Brand", "ProductModelName", "Product Price", ['Product Price', 'Product Image URL', 'Product URL'])
+    BRAND_MODEL_DEST, MODEL_BRAND_DEST, "Brand", "ProductModelName", "Product Price", ['Product Price', 'Product Image URL', 'Product URL', 'ProductFeatures'])
 
 # %%
 # For Amazon - save lookup tables
@@ -73,7 +73,7 @@ BRAND_MODEL_DEST = 'p_amazon_brand_model.pickle'
 MODEL_BRAND_DEST = 'p_amazon_model_brand.pickle'
 
 amazon_brands, amazon_models, amazon_brand_model_dict, amazon_model_brand_dict, amazon_brand_model_info_dict = generate_brand_model_data(BRAND_MODEL_SRC, BRAND_MODEL_INFO_DEST,
-    BRAND_MODEL_DEST, MODEL_BRAND_DEST, "Organziation", "ProductModelName", "new_price", ["new_price", "url", "Image"])
+    BRAND_MODEL_DEST, MODEL_BRAND_DEST, "Organziation", "ProductModelName", "new_price", ["new_price", "url", "Image", "ProductFeatures"])
 
 # %%
 # Combine brands and models from Treoo and Amazon

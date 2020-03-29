@@ -4,6 +4,7 @@
 """
 import os
 import pickle
+import random
 from flask import make_response, jsonify
 from rasa_helper import get_value_based_on_similar_key
 from richMessageHelper import display_response
@@ -27,7 +28,12 @@ def price_intent_handler(req, public_url, platform=""):
     brand = req["queryResult"]["parameters"].get("ent_brand", "")
 
     if model == "":
-        msg = "Ok let's get the price for your desired headphones. I will need the model name!"
+        msg = random.choice([
+            "Ok let's get the price for your desired headphones. I will need the model name!",
+            "Sure let's get more information for your desired headphones. What's the model name?",
+            "Oops, I didn't quite catch the model name",
+        ])
+        # msg = "Ok let's get the price for your desired headphones. I will need the model name!"
     else:
         # check if there is an exact match for model
         if model not in model_brand_dict.keys():
@@ -46,9 +52,17 @@ def price_intent_handler(req, public_url, platform=""):
             # but model is valid - we will be able to get a brand for it
             possible_brands = model_brand_dict.get(model, "")
             if len(possible_brands) > 1:
-                msg = "There are multiple brands selling this model! What brand would this be for?"
+                msg = random.choice([
+                    "There are multiple brands selling this model! 😲 What brand would this be for?",
+                    "😅 Oops! More than 1 brand have this specific model!",
+                    f"Seems like a popular model name! {len(possible_brands)} brands have this model."
+                ])
                 if len(possible_brands) < 5:
-                    msg = msg + "\nThese are the possible brands: " + ", ".join(possible_brands)
+                    list_brands = random.choice([
+                        "These are the possible brands: " + ", ".join(possible_brands),
+                        "Which of these brands are you looking at: " + ", ".join(possible_brands)
+                    ])
+                    msg = msg + "\n" + list_brands
                     return make_response(jsonify({"fulfillmentMessages": [{"text": {"text": [msg]}}]}))
             else:
                 brand = possible_brands[0]  # one-to-one matching! Great!
@@ -71,5 +85,7 @@ def price_intent_handler(req, public_url, platform=""):
                 }
             ]
         }
+        pdf = info.get("ProductFeatures", "")
+        if type(pdf) == str and pdf != "": basic_card["formattedText"] = "Features: " + pdf.replace(",", ", ")
 
     return make_response(jsonify(display_response(public_url, msg, simple_msg, basic_card=basic_card, platform=platform)))
