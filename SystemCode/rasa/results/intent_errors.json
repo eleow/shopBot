@@ -1,0 +1,18 @@
+[
+  {
+    "text": "crazybaby",
+    "intent": "intent_price",
+    "intent_prediction": {
+      "name": "intent_whatis",
+      "confidence": 0.47123125195503235
+    }
+  },
+  {
+    "text": "aftershokz",
+    "intent": "intent_price",
+    "intent_prediction": {
+      "name": "greet",
+      "confidence": 0.39304473996162415
+    }
+  }
+]

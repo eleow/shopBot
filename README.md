@@ -19,8 +19,6 @@
     <br />
     <br />
     <br />
-    <a href="">View Demo</a>
-    ·
     <a href="https://github.com/eleow/shopBot/issues">Report Bug</a>
     ·
     <a href="https://github.com/eleow/shopBot/issues">Request Feature</a>
@@ -33,7 +31,7 @@ This was the group project by <a href="https://github.com/eleow">Edmund</a>, <a 
 
 * Graduate Certificate in [Practical Language Processing](https://www.iss.nus.edu.sg/stackable-certificate-programmes/business-analytics/graduate-certificate-in-practical-language-processing") offered by [NUS-ISS](https://www.iss.nus.edu.sg "Institute of Systems Science, National University of Singapore").
 
-The objective of the chatbot is to give users better "decision simplicity" in their shopping for headphones, utilising Google DialogFlow, rasa NLU, Kommunicate, and other NLP techniques and libraries. As a demo, the deployed chatbot would be embedded within a (fake) electronics website.
+The objective of the chatbot is to give users better "decision simplicity" in their shopping for headphones, utilising Google DialogFlow, rasa NLU, Kommunicate, and other NLP techniques and libraries. As a demo, the deployed chatbot would be embedded within a (fake) headphones website.
 
 
 
