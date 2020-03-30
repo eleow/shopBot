@@ -19,6 +19,7 @@ from flask import render_template
 from flask import Flask, request, make_response, jsonify
 from intent_whatis import whatis_intent_handler
 from intent_price import price_intent_handler
+from aspects import aspect_intent_handler
 from richMessageHelper import displayWelcome
 from utils import crossdomain, str2bool  # , get_memory_size_locals
 from colorama import Fore, Style
@@ -149,6 +150,22 @@ def webhook():
             return whatis_intent_handler(req, PUBLIC_URL, platform)
         elif ("intent_price" in intent_name):
             return price_intent_handler(req, PUBLIC_URL, platform)
+        elif (intent_name == "intent_recommend"):
+            return aspect_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "intent_product_type"):
+            return aspect_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "intent_wired"):
+            return aspect_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "intent_brand"):
+            return aspect_intent_handler(req, PUBLIC_URL)        
+        elif (intent_name == "ask_product_type"):
+            return aspect_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "ask_wired"):
+            return aspect_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "ask_brand"):
+            return aspect_intent_handler(req, PUBLIC_URL)
+        elif (intent_name == "intent_confim_recommend - yes"):
+            return aspect_intent_handler(req, PUBLIC_URL)
 
         elif action in ["WELCOME"] or "default welcome intent" in intent_name:
 

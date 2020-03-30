@@ -5,6 +5,7 @@
 
 import csv
 import random
+import string
 from os import chdir
 from os.path import dirname, realpath
 from flask import make_response, jsonify
@@ -52,6 +53,8 @@ def whatis_intent_handler(req, public_url, platform=""):
     postText = []
 
     item = req["queryResult"]["parameters"].get("ent_whatis_query", None)
+    item = ''.join([t for t in item if t not in string.punctuation]).lower()
+
     if item is None or item == "":
         print('Warning: Intent is detected but failed to extract entity')
         followupEvent = {"name": "WELCOME", "parameters": {"num_fail": 1}}
@@ -79,15 +82,17 @@ def whatis_intent_handler(req, public_url, platform=""):
         if (sim_key is not None):
             dic_val = WHATIS_DIC.get(sim_key, None)
 
-            arr1 = [
+            starter = random.choice([
                 f"😁 Well, there was no exact match for {item}, but here's what I can tell you for {sim_key.upper()}:",
                 f"😊 Okay, I am not exactly sure what {item} is, but I do know what {sim_key.upper()} is:",
                 f"Oops, the closest match for your query is {sim_key.upper()}. And here's what it is:"
-            ]
-            returnText = random.choice(arr1) + "\n" + dic_val[0] + "\n\n(Source: " + dic_val[1] + ")"
+            ])
+            # returnText = random.choice(arr1) + "\n" + dic_val[0] + "\n\n(Source: " + dic_val[1] + ")"
+            returnText_simple = starter + "\n" + dic_val[0] + "\n\n(Source: " + dic_val[1] + ")"
+            returnText = starter
+            postText = [dic_val[0], "source: " + dic_val[1]]
 
         else:
-            # TODO - search on Google/Wiki for what that is
             # Say dunno
             dunnoArray = [
                 "Hmm.. I am not sure what " + item + " is too!",

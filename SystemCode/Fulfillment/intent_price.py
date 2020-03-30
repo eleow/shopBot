@@ -50,6 +50,7 @@ def price_intent_get_model_handler(req, public_url, platform=""):
                 "Sure let's get more information for your desired headphones. What's the model name?",
                 "Oops, I didn't quite catch the model name",
             ])
+            sim_msg = msg
         return make_response(jsonify(display_response(public_url, msg, sim_msg, platform=platform, suggestions=suggest)))
     else:
         followupEvent = {
