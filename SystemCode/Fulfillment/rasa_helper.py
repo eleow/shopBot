@@ -111,6 +111,10 @@ def get_value_based_on_similar_key(glossary, query, threshold=0.6, verbose=0):
         Returns: key of the top result if similarity > threshold, else None
     """
     query_nlp = nlp(query)
+    # Prevent "[W008] Evaluating Doc.similarity based on empty vectors" ie nonsense words
+    if query_nlp.vector_norm == 0:
+        return None
+
     keys_nlp = [nlp(k) for k in list(glossary.keys())]
     similarity_nlp = [(k, query_nlp.similarity(k)) for k in keys_nlp]
     results = sorted(similarity_nlp, key=lambda x: x[1], reverse=True)

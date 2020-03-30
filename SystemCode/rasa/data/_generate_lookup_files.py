@@ -32,15 +32,22 @@ whatis_list = []
 with open(WHATIS_SOURCE, mode='r', encoding="utf-8-sig") as infile:
     reader = csv.reader(infile)
     for row in reader:
-        whatis_list.append(row[0].strip().lower() + '\n')
+        whatis_list.append(row[0].strip().lower())
 
         # Expand synonyms / Copy description and source
         if (row[3] != ''):
             synonyms = row[3].split(',')
             for s in synonyms:
-                whatis_list.append(s.strip().lower() + '\n')
+                whatis_list.append(s.strip().lower())
 
-# print(whatis_list)
+
+# dialogFlow entity
+with open(WHATIS_DEST.replace('entity_', 'dialogflow_entity_'), 'w+') as f:
+    f.writelines(['\"' + l + '\",\"' + l + '\"\n' for l in whatis_list])
+
+# rasa
+# have to manually add newlines before writing to file
+whatis_list = [l + '\n' for l in whatis_list]
 print('Writing whatis_list to ', WHATIS_DEST)
 with open(WHATIS_DEST, 'w+') as f:
     f.writelines(whatis_list)

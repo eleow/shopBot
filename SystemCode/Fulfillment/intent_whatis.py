@@ -47,7 +47,10 @@ def initialise_lookup_table():
 def whatis_intent_handler(req, public_url, platform=""):
     # global nlp
 
-    returnText = []
+    returnText = ""
+    returnText_simple = ""
+    postText = []
+
     item = req["queryResult"]["parameters"].get("ent_whatis_query", None)
     if item is None or item == "":
         print('Warning: Intent is detected but failed to extract entity')
@@ -55,6 +58,7 @@ def whatis_intent_handler(req, public_url, platform=""):
         return make_response(jsonify({"followupEventInput": followupEvent}))
 
     query = item.strip().lower()
+    item = item.strip().upper()
 
     # lazy initialisation of WHATIS_DIC from a file.
     # alternatively we can query a DB
@@ -76,9 +80,9 @@ def whatis_intent_handler(req, public_url, platform=""):
             dic_val = WHATIS_DIC.get(sim_key, None)
 
             arr1 = [
-                "😁 Well, there was no exact match for %s, but here's what I can tell you:" % item,
-                "😊 Okay, I am not exactly sure what %s is, but I do know what %s is:" % (item, sim_key),
-                "Oops, the closest match for your query is %s. And here's what it is:"
+                f"😁 Well, there was no exact match for {item}, but here's what I can tell you for {sim_key.upper()}:",
+                f"😊 Okay, I am not exactly sure what {item} is, but I do know what {sim_key.upper()} is:",
+                f"Oops, the closest match for your query is {sim_key.upper()}. And here's what it is:"
             ]
             returnText = random.choice(arr1) + "\n" + dic_val[0] + "\n\n(Source: " + dic_val[1] + ")"
 
@@ -90,17 +94,13 @@ def whatis_intent_handler(req, public_url, platform=""):
                 "Oops! I don't know what " + item + " is too!"
             ]
             returnText = random.choice(dunnoArray)
+            returnText_simple = returnText
     else:
         description = dic_val[0]
-        returnText = "**" + item.strip().capitalize() + "**:"
-        returnText = returnText + "\n" + description
+        returnText_simple = item + ":\n" + description + "\n(From: " + dic_val[1] + ")"
 
-        # # format into a card for display as a rich message if available
-        # msg = "Here's what I've got.."
-        # basic_card = {
-        #     "title": item.strip().capitalize(),
-        #     "formattedText": description
-        # }
+        returnText = "Here's what I've got for " + item
+        postText = [description, "source: " + dic_val[1]]
 
     return make_response(jsonify(display_response(public_url,
-        sim_msg=returnText, msg=returnText, platform=platform)))
+        sim_msg=returnText_simple, msg=returnText, post_msg=postText, platform=platform)))
