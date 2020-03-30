@@ -66,7 +66,7 @@ def displayWelcomeBase(default_header_msg=None, additional_header=None, first_na
 
 
 # https://dialogflow.com/docs/reference/v1-v2-migration-guide-fulfillment#webhook_responses
-def display_google_assistant(public_url, msg, basic_card):
+def display_google_assistant(public_url, msg, basic_card, suggestions):
     res = {
         "expectUserResponse": True,
         "richResponse": {
@@ -115,19 +115,27 @@ def display_google_assistant(public_url, msg, basic_card):
 
         res['richResponse']["items"].append(res_basic_card)
 
+    if suggestions is not None and len(suggestions) > 0:
+        res_suggestions = []
+        for s in suggestions:
+            res_suggestions.append({"title": s})
+
+        res['richResponse']["suggestions"] = res_suggestions
+
     return res
 
 
-def display_response(public_url, msg, sim_msg=None, basic_card=None, platform=""):
+def display_response(public_url, msg, sim_msg=None, basic_card=None, suggestions=None, platform=""):
     if sim_msg is None: sim_msg = msg
 
-    google_payload = display_google_assistant(public_url, msg, basic_card)
+    google_payload = display_google_assistant(public_url, msg, basic_card, suggestions)
 
     webhook_response = {
         # "fulfillmentMessages": [{"text": {"text": [sim_msg]}}],  # bug-fix: so that kommunicate will not display both
         "payload": {
             "google": google_payload,
-        }
+        },
+        "fulfillmentMessages": []
     }
 
     if platform == "": webhook_response['fulfillmentMessages'] = [{"text": {"text": [sim_msg]}}]

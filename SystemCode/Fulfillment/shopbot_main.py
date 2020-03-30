@@ -147,7 +147,7 @@ def webhook():
         # Intent for query of terms
         if (intent_name == "intent_whatis_query"):
             return whatis_intent_handler(req, PUBLIC_URL, platform)
-        elif (intent_name == "intent_price_query"):
+        elif ("intent_price" in intent_name):
             return price_intent_handler(req, PUBLIC_URL, platform)
 
         elif action in ["WELCOME"] or "default welcome intent" in intent_name:
