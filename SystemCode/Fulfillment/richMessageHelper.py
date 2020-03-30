@@ -4,7 +4,7 @@ import random
 # import requests
 # import configparser
 
-BOT_NAME = 'AudioPhil'
+# BOT_NAME = 'AudioPhil'
 BOT_TYPE = 'shopping bot'
 BOT_DOMAIN = 'earphones and headphones'
 # CONFIG_PATH = './SystemCode/Fulfillment/config.ini'
@@ -38,16 +38,19 @@ BOT_DOMAIN = 'earphones and headphones'
 
 def displayWelcomeBase(default_header_msg=None, additional_header=None, first_name=None):
     # Components of introduction message
-    greet = random.choice(["Hi", "Hello there", "Good day", "Hey", "How's it going"])
+    greet = random.choice(["Hi", "Hello there", "Good day", "Hey", "How's it going", "Welcome", "Yo"])
     emoji = random.choice(["😁", "😊", "😎", "😀", "😬"])
 
     if first_name is not None: greet = greet + " " + first_name
 
+    bot_name = random.choice(["Phil", "AudioPhil"])
+
     introArr = [
-        f"! I am {BOT_NAME}, your personal {BOT_TYPE} for {BOT_DOMAIN}! {emoji} ",
-        f"! I am {BOT_NAME}, the {BOT_TYPE} for {BOT_DOMAIN} {emoji} ",
-        f"! 👋 {BOT_NAME} here. How can I help you today? 😊 ",
-        f"! {emoji} I'm {BOT_NAME}, the {BOT_TYPE} for {BOT_DOMAIN}. What would you like to do today?"
+        f"! I am {bot_name}, your personal {BOT_TYPE} for {BOT_DOMAIN}! {emoji} ",
+        f"! I am {bot_name}. Let's work together to discover the perfect headphones for you today! {emoji} ",
+        f"! I am {bot_name}, the {BOT_TYPE} for {BOT_DOMAIN} {emoji} ",
+        f"! 👋 {bot_name} here. How can I help you today? 😊 ",
+        f"! {emoji} I'm {bot_name}, the {BOT_TYPE} for {BOT_DOMAIN}. What would you like to do today?"
     ]
     intro = greet + random.choice(introArr) if not additional_header else additional_header
 

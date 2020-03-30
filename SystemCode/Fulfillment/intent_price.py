@@ -148,7 +148,11 @@ def price_intent_handler(req, public_url, platform=""):
         # finally, let's get details for the given brand and model
         info = brand_model_info_dict.get(brand).get(model, {})
         if (info != {}):
-            msg = f"You can get {brand.upper()} {model.upper()} at S${info['Product Price']:,.2f}!"
+            msg = random.choice([
+               f"🎉 You can get {brand.upper()} {model.upper()} at S${info['Product Price']:,.2f}!",
+               f"Woohoo! It's your lucky day! 🤩 {brand.upper()} {model.upper()} is available at S${info['Product Price']:,.2f}!"
+            ])
+
             simple_msg = msg + f"\n🎁 Get it now at {info['Product URL']}"
             # print(simple_msg)
 

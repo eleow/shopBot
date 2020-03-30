@@ -33,6 +33,11 @@ This was the group project by <a href="https://github.com/eleow">Edmund</a>, <a 
 
 * Graduate Certificate in [Practical Language Processing](https://www.iss.nus.edu.sg/stackable-certificate-programmes/business-analytics/graduate-certificate-in-practical-language-processing") offered by [NUS-ISS](https://www.iss.nus.edu.sg "Institute of Systems Science, National University of Singapore").
 
+The objective of the chatbot is to give users better "decision simplicity" in their shopping for headphones, utilising Google DialogFlow, rasa NLU, Kommunicate, and other NLP techniques and libraries. As a demo, the deployed chatbot would be embedded within a (fake) electronics website.
+
+
+
+
 ## Getting Started
 
 ### Installation
@@ -46,6 +51,9 @@ git clone https://github.com/eleow/shopBot.git
 * Refer to [User Guide](https://github.com/eleow/shopBot/blob/master/docs/User%20Guide.docx)
 
 ## Usage
+
+![ShopBot](/_misc/persona.png?raw=true&s=100)
+
 
 The following intents are available
 
@@ -64,13 +72,10 @@ When the user has a query on a specific term, we will try the following in order
 * Exact word or synonym matching of query with terms in database,
 * Similarity matching of query with terms in database, based on word vectors using [spacy model 'en_core_web_md'](https://spacy.io/models/en#en_core_web_md) (English multi-task CNN trained on OntoNotes, with GloVe vectors trained on Common Crawl)
 
-The user will also be able to ask follow-up questions based on the context. This would be done by the following:
 
-* Get answer using above as context to BERT model (trained on [SQuAD dataset](https://rajpurkar.github.io/SQuAD-explorer/)) with [deeppavlov](https://github.com/deepmipt/DeepPavlov)
+### Get product pricing and information
 
-### Get pricing information
-
-TODO
+When the user wants to find out about a specific model, we will check our preprocessed list of brands and models from Amazon and Treoo, and return the most suitable match. If the item exists in both Amazon and Treoo, the lower priced item would be shown.
 
 ## Unit Testing
 
