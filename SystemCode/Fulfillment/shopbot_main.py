@@ -157,7 +157,7 @@ def webhook():
         elif (intent_name == "intent_wired"):
             return aspect_intent_handler(req, PUBLIC_URL)
         elif (intent_name == "intent_brand"):
-            return aspect_intent_handler(req, PUBLIC_URL)        
+            return aspect_intent_handler(req, PUBLIC_URL)
         elif (intent_name == "ask_product_type"):
             return aspect_intent_handler(req, PUBLIC_URL)
         elif (intent_name == "ask_wired"):
