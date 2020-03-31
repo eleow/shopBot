@@ -227,16 +227,10 @@ def display_carousel_browse(req, df, platform=""):
             "google": {
                 "expectUserResponse": True,
                 "richResponse": {
-                    "items": [
+                     "items": [
                         {
                             "simpleResponse": {
-                                "textToSpeech": text
-                            }
-                        },
-                        {
-                            "carouselBrowse": {
-                                "items": [
-                                ]
+                                "textToSpeech": ""
                             }
                         }
                     ]
@@ -292,7 +286,7 @@ def display_carousel_browse(req, df, platform=""):
         carouselBrowseItems.append(carouselBrowseItem)
 
     custom_carousel = {
-        "message": "Carousel",
+        "message": text,
         "platform": "kommunicate",
         "metadata": {
             "contentType": "300",
