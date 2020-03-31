@@ -33,7 +33,7 @@ This was the group project by <a href="https://github.com/eleow">Edmund</a>, <a 
 
 The objective of the chatbot is to give users better "decision simplicity" in their shopping for headphones, utilising Google DialogFlow, rasa NLU, Kommunicate, and other NLP techniques and libraries. As a demo, the deployed chatbot would be embedded within a (fake) headphones website.
 
-
+![ShopBot](/_misc/store.png?raw=true&s=200)
 
 
 ## Getting Started
@@ -46,12 +46,11 @@ The objective of the chatbot is to give users better "decision simplicity" in th
 git clone https://github.com/eleow/shopBot.git
 ```
 
-* Refer to [User Guide](https://github.com/eleow/shopBot/blob/master/docs/User%20Guide.docx)
+* Refer to [User Guide](https://github.com/eleow/shopBot/blob/master/docs/User%20Guide.pdf)
 
 ## Usage
 
-![ShopBot](/_misc/persona.png?raw=true&s=100)
-
+Refer to [Product Guide](https://github.com/eleow/shopBot/blob/master/docs/Product%20Guide.pdf) for full details.
 
 The following intents are available
 
@@ -61,7 +60,7 @@ The following intents are available
 
 ### Get product recommendations
 
-TODO
+Based on user’s preferences, including whether he would like earphones or headphones, the connectivity type and desired brands, results are returned to the user. The sentiments for the aspects design, fit, price and sound are displayed, along with product name and price. The review rating from Amazon consumers is also provided.
 
 ### Get answers to FAQ on headphone-related stuff
 
