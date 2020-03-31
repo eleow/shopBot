@@ -36,12 +36,12 @@ def aspect_intent_handler(req, public_url):
     ent_brand = req["queryResult"]["parameters"].get("ent_brand", [])
     affirmBrand = req["queryResult"]["parameters"].get("affirm_brand", "")
     confirm = req["queryResult"]["parameters"].get("confirm", "")
-    print("action", action)
-    print("confirm", confirm, type(confirm))
-    print("productType", productType)
-    print("wire", wired)
-    print("ent_brand", ent_brand)
-    print("affirm", affirmBrand)
+    # print("action", action)
+    # print("confirm", confirm, type(confirm))
+    # print("productType", productType)
+    # print("wire", wired)
+    # print("ent_brand", ent_brand)
+    # print("affirm", affirmBrand)
 
     productTypeEmpty = (productType == [])
     wiredEmpty = (wired == [])
@@ -50,7 +50,7 @@ def aspect_intent_handler(req, public_url):
 
     oneEmpty = (productTypeEmpty or wiredEmpty or brandEmpty or brandPartial)
 
-    print("oneEmpty", oneEmpty)
+    # print("oneEmpty", oneEmpty)
 
     if oneEmpty:
         if productTypeEmpty:
@@ -72,7 +72,7 @@ def aspect_intent_handler(req, public_url):
             }
         }
 
-        print(followupEvent)
+        # print(followupEvent)
         return make_response(jsonify({"followupEventInput": followupEvent}))
 
     elif (action != "intent_confim_recommend.intent_confim_recommend-yes"):
@@ -89,7 +89,7 @@ def aspect_intent_handler(req, public_url):
         #print("productType", productType)
         #print("wired", "wired")
         #print("ent_brand", ent_brand)
-        print("affirmBrand confirm", affirmBrand)
+        # print("affirmBrand confirm", affirmBrand)
 
         followupEvent = {
             "name": event,
@@ -103,7 +103,7 @@ def aspect_intent_handler(req, public_url):
             }
         }
 
-        print(followupEvent)
+        # print(followupEvent)
         return make_response(jsonify({"followupEventInput": followupEvent}))
 
     else:
@@ -248,31 +248,61 @@ def display_carousel_browse(req, df, platform=""):
     emoji_rating = get_rating()
     carouselBrowseItems = []
     for i in range(len(df)):
-        carouselBrowseItem = {"title": "", "openUrlAction": {
-            "url": ""}, "description": "", "footer": "", "image": {"url": "", "accessibilityText": ""}}
+
+        # carouselBrowseItem = {"title": "", "openUrlAction": {
+        #     "url": ""}, "description": "", "footer": "", "image": {"url": "", "accessibilityText": ""}}
         design_rating = emoji_rating[int(df[("a", "design_rating_round")][i] / 0.5) -
-                                     1] if not math.isnan(df[("a", "design_rating_round")][i]) else "unknown"
+                                     1] if not math.isnan(df[("a", "design_rating_round")][i]) else "??"
         fit_rating = emoji_rating[int(df[("a", "fit_rating_round")][i] / 0.5)
-                                  ] if not math.isnan(df[("a", "fit_rating_round")][i]) else "unknown"
+                                  ] if not math.isnan(df[("a", "fit_rating_round")][i]) else "??"
         price_rating = emoji_rating[int(df[("a", "price_rating_round")][i] / 0.5)
-                                    ] if not math.isnan(df[("a", "price_rating_round")][i]) else "unknown"
+                                    ] if not math.isnan(df[("a", "price_rating_round")][i]) else "??"
         sound_rating = emoji_rating[int(df[("a", "sound_rating_round")][i] / 0.5)
-                                    ] if not math.isnan(df[("a", "sound_rating_round")][i]) else "unknown"
+                                    ] if not math.isnan(df[("a", "sound_rating_round")][i]) else "??"
         review_rating = emoji_rating[int(df[("a", "review_rating_round")][i] / 0.5)
-                                     ] if not math.isnan(df[("a", "review_rating_round")][i]) else "unknown"
+                                     ] if not math.isnan(df[("a", "review_rating_round")][i]) else "??"
+
+        rating_over_5 = int(df[("a", "review_rating_round")][i])
+
         price = "SGD$" + str(df[("a", "new_price")][i]
-                             ) if not math.isnan(df[("a", "new_price")][i]) else "unknown"
-        carouselBrowseItem["title"] = df[("a", "Name")][i]
-        carouselBrowseItem["url"] = df[("a", "url")][i]
-        carouselBrowseItem["description"] = "Design: {}".format(design_rating) + "\n" + "Fit: {}".format(fit_rating) + "\n" + "Value: {}".format(
-            price_rating) + "\n" + "Sound: {}".format(sound_rating) + "\n" + "Rating: {}".format(review_rating) + "\n" + "Price: {}".format(price)
-        carouselBrowseItem["image"]["accessibilityText"] = df[(
-            "a", "Image")][i]
-        carouselBrowseItem["image"]["accessibilityText"] = " ".join([token.capitalize() for token in df[(
-            "a", "Organization")][i].split()]) if len(df[("a", "Organization")][i]) > 0 else ""
+                             ) if not math.isnan(df[("a", "new_price")][i]) else "??"
+
+        carouselBrowseItem = {
+            "title": df[("a", "Name")][i],
+            "subtitle": "",
+            "header": {
+                "overlayText": price,
+                "imgSrc": ""
+            },
+            "description": "Design: {}".format(design_rating) + "\n" + "Fit: {}".format(fit_rating) + "\n" + "Value: {}".format(
+                price_rating) + "\n" + "Sound: {}".format(sound_rating),
+            "titleExt": f"{rating_over_5}/5",
+            "buttons": [
+                {
+                    "name": "Get it!",
+                    "action": {
+                        "type": "link",
+                        "payload": {
+                            "url": df[("a", "url")][i]
+                        }
+                    }
+                }
+            ]
+        }
         carouselBrowseItems.append(carouselBrowseItem)
-    response["payload"]["google"]["richResponse"]["items"][1]["carouselBrowse"]["items"] = carouselBrowseItems
+
+    custom_carousel = {
+        "message": "Carousel",
+        "platform": "kommunicate",
+        "metadata": {
+            "contentType": "300",
+            "templateId": "10",
+            "payload": carouselBrowseItems
+        }
+    }
+
+    response["fulfillmentMessages"] = [{"payload": custom_carousel}]
     response["outputContexts"] = clear_contexts(req)
-    print(response)
+    # print(response)
 
     return response
