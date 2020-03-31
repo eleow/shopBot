@@ -1,0 +1,15 @@
+tensorflow==1.15.0
+rasa==1.7.3
+spacy>=2.2.2
+https://github.com/explosion/spacy-models/releases/download/en_core_web_md-2.2.5/en_core_web_md-2.2.5.tar.gz
+https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-2.2.5/en_core_web_sm-2.2.5.tar.gz
+nltk>=3.2.5
+gunicorn
+flask
+requests
+pyngrok
+unidecode
+colorama
+xlrd
+networkx
+matplotlib-venn
